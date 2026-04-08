@@ -47,3 +47,12 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# scratch and test files
+scratch.R
+debug_data_model.R
+
+.env
+.lintr
+
+data/
