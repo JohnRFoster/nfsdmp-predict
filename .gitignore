@@ -56,3 +56,5 @@ debug_data_model.R
 .lintr
 
 data/
+
+R/oklahoma_for_econ.R
