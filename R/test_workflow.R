@@ -35,7 +35,7 @@ create_new <- FALSE
 file_name <- "dev_MIS.Effort.Take.all_methods.Daily.Events.csv"
 
 fname <- file.path(data_store, insitu, pull_date, file_name)
-data_mis <- get_data(fname, interval, create_new, data_store)
+data_mis <- get_data(fname, interval, create_new)
 
 original_ids <- read_csv("../data-store/originalFitDataWithIDs.csv")
 
