@@ -1,4 +1,4 @@
-remotes::install_github("JohnRFoster/boaR")
+# remotes::install_github("JohnRFoster/boaR")
 
 library(tidyr)
 library(dplyr)
