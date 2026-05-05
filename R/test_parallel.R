@@ -12,7 +12,7 @@ set.seed(131)
 
 # number of iterations and chains for mcmc
 # "default" for testing, "prod" for final runs
-config_name <- "default"
+config_name <- "dev_parallel"
 config <- config::get(config = config_name)
 n_iter <- config$n_iter
 n_chains <- 3
@@ -26,6 +26,8 @@ constants <- rds$constants
 data <- rds$data
 inits <- rds$inits
 
+write_dir <- file.path(config$mcmc_dir, Sys.Date())
+
 cl <- makeCluster(n_chains)
 mcmc_parallel(
 	cl = cl,
@@ -35,7 +37,7 @@ mcmc_parallel(
 	model_inits = inits,
 	params_check = config$params_check,
 	n_iters = n_iter,
-	dest = "data/dev/mcmc",
+	dest = write_dir,
 	monitors_add = "N",
 	custom_samplers = NULL
 )
