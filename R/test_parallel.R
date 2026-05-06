@@ -3,7 +3,6 @@
 library(tidyr)
 library(dplyr)
 library(readr)
-library(nimble)
 library(coda)
 library(lubridate)
 library(boaR)
