@@ -92,7 +92,6 @@ length(unique(data_new_props$method))
 constants <- nimble_constants(
 	df = data_new_props,
 	interval = interval,
-	data_repo = data_store,
 	post_round = post_round
 )
 
