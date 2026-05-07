@@ -24,11 +24,10 @@ n_iter <- config$n_iter
 n_chains <- 3
 
 readRenviron(".env")
+set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 data_store <- Sys.getenv("dataPath")
-
-insitu <- "insitu"
 pull_date <- "2026-03-25"
-post_round <- "first"
+post_round <- "last"
 
 # number of days in primary period
 interval <- config$interval
