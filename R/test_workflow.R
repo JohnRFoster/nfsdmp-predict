@@ -1,4 +1,8 @@
-# workflow to fit new properties
+# ----------------------------------
+# This script tests the single MCMC function.
+# ----------------------------------
+
+# remotes::install_github("JohnRFoster/boaR")
 
 library(tidyr)
 library(dplyr)
@@ -20,22 +24,24 @@ n_chains <- config$n_chains
 readRenviron(".env")
 data_store <- Sys.getenv("dataPath")
 
-# injest data ----
 insitu <- "insitu"
 pull_date <- "2026-03-25"
 post_round <- "first"
 
 # number of days in primary period
-interval <- 28
+interval <- config$interval
 
 # whether to create a new dataset of primary periods
 # (if FALSE, will use existing dataset)
-create_new <- FALSE
+create_new <- config$create_new
 
+# processed MIS data lives here organized by pull date
+mis_processed <- "processed"
 file_name <- "dev_MIS.Effort.Take.all_methods.Daily.Events.csv"
 
-fname <- file.path(data_store, insitu, pull_date, file_name)
+fname <- file.path(data_store, pull_date, mis_processed, file_name)
 data_mis <- get_data(fname, interval, create_new)
+
 
 original_ids <- read_csv("../data-store/originalFitDataWithIDs.csv")
 
