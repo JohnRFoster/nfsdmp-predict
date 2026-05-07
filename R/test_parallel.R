@@ -38,13 +38,15 @@ interval <- config$interval
 create_new <- config$create_new
 
 # processed MIS data lives here organized by pull date
+mis <- "MIS"
 mis_processed <- "processed"
 file_name <- "dev_MIS.Effort.Take.all_methods.Daily.Events.csv"
 
-fname <- file.path(data_store, pull_date, mis_processed, file_name)
+fname <- file.path(data_store, mis, pull_date, mis_processed, file_name)
 data_mis <- get_data(fname, interval, create_new)
 
-original_ids <- read_csv("../data-store/originalFitDataWithIDs.csv")
+fname <- "originalFitDataWithIDs.csv"
+original_ids <- read_csv(file.path(data_store, fname))
 
 original_props <- unique(original_ids$propertyID)
 new_props <- unique(data_mis$propertyID)
