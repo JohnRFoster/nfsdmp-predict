@@ -241,8 +241,8 @@ modelCode <- nimbleCode({
   }
 
   for (i in 1:n_property) {
-    log_lambda_1[i] ~ dunif(0, 10)
-    log(N[nH[i, 1]]) <- log_lambda_1[i]
+    lambda_1[i] ~ dunif(n1_min[i], n1_max[i])
+    N[nH[i, 1]] ~ dpois(round(lambda_1[i]))
 
     # population growth across time steps
     for (j in 2:n_time_prop[i]) {
