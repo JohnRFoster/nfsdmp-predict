@@ -14,6 +14,7 @@ library(boaR)
 library(parallel)
 
 readRenviron(".env")
+set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 data_store <- Sys.getenv("dataPath")
 
 n_chains <- 7
@@ -265,7 +266,16 @@ mcmc_parallel(
   model_constants = constants,
   model_data = data,
   model_inits = inits,
-  params_check = config$params_check,
+  params_check = c(
+    "beta_p",
+    "beta1",
+    "log_gamma",
+    "log_rho",
+    "phi_mu",
+    "psi_phi",
+    "log_nu",
+    "p_mu"
+  ),
   n_iters = n_iter,
   dest = write_dir,
   monitors_add = "N",
