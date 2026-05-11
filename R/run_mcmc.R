@@ -18,7 +18,7 @@ set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 data_store <- Sys.getenv("dataPath")
 
 n_chains <- 7
-n_iter <- 10000
+n_iter <- 50000
 
 data_for_nimble <- read_csv(file.path(data_store, "masked_mis_data.csv")) |>
   mutate(property = propertyID, county = county_code)
