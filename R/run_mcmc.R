@@ -34,7 +34,7 @@ create_surv_prior <- function(interval = 4) {
   require(tidyr)
 
   data <- read_csv(
-    file.path(file.path(data_store, "Vital_Rate_Data.csv")),
+    file.path(data_store, "Vital_Rate_Data.csv"),
     show_col_types = FALSE
   )
 
