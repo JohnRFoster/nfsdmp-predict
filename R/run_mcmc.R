@@ -279,5 +279,6 @@ mcmc_parallel(
   n_iters = n_iter,
   dest = write_dir,
   monitors_add = "N",
-  custom_samplers = NULL
+  custom_samplers = NULL,
+  export = "calc_log_area"
 )
