@@ -159,6 +159,19 @@ inits <- list(n_chains)
 for (i in seq_len(n_chains)) {
   set.seed(i)
   inits[[i]] <- nimble_inits(constants, data, buffer = 200)
+  inits$beta1 <- jitter(c(-1, -3.75, -0.25, 0.3, -1.5))
+  inits$beta_p <- matrix(
+    jitter(
+      c(1.75, 1.5, 0, 0, -0.5, -1.2, 0.15, 0, 0.1, -1.75, -1, 0, -0.75, 0, 0)
+    ),
+    5,
+    3
+  )
+  inits$p_mu <- jitter(c(-4, -3))
+  inits$log_gamma <- jitter(c(-3, -2.1))
+  inits$log_rho <- jitter(c(0.8, 2.25, 2.15, -1.35, -0.55))
+  inits$psi_phi <- runif(1, 0.65, 0.7)
+  inits$phi_mu <- runif(1, 0.57, 0.59)
 }
 
 write_dir <- file.path("out/MMRM", Sys.Date())
