@@ -11,6 +11,7 @@ library(nimble)
 library(coda)
 library(lubridate)
 library(boaR)
+library(parallel)
 
 readRenviron(".env")
 data_store <- Sys.getenv("dataPath")
@@ -232,7 +233,7 @@ modelCode <- nimbleCode({
 
   # the probability an individual is captured after the first survey
   for (i in 1:n_not_first_survey) {
-    log(p[not_first_survey[i]]) <- log_theta[start[not_first_survey[i]]] +
+    log(p[not_first_survey[i]]) <- log_theta[not_first_survey[i]] +
       sum(log(
         1 - exp(log_theta[start[not_first_survey[i]]:end[not_first_survey[i]]])
       ))
