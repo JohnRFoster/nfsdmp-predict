@@ -136,22 +136,22 @@ create_surv_prior <- function(interval = 4) {
 
 survival_prior <- create_surv_prior(4)
 
-constants$log_rho_mu = rep(0, 5)
-constants$log_rho_tau = c(2, 1, 1, 3, 3)
-constants$p_mu_mu = rep(0, 2)
-constants$p_mu_tau = rep(1, 2)
-constants$log_gamma_mu = rep(0, 2)
-constants$log_gamma_tau = rep(3, 2)
-constants$beta1_mu = rep(0, 5)
-constants$beta1_tau = rep(1, 5)
-constants$beta_p_mu = rep(0, 15)
-constants$beta_p_tau = rep(1, 15)
-constants$phi_mu_a = survival_prior$alpha
-constants$phi_mu_b = survival_prior$beta
-constants$psi_shape = 1
-constants$psi_rate = 0.1
-constants$log_nu_mu = 2
-constants$log_nu_tau = 1
+constants$log_rho_mu <- rep(0, 5)
+constants$log_rho_tau <- c(2, 1, 1, 3, 3)
+constants$p_mu_mu <- rep(0, 2)
+constants$p_mu_tau <- rep(1, 2)
+constants$log_gamma_mu <- rep(0, 2)
+constants$log_gamma_tau <- rep(3, 2)
+constants$beta1_mu <- rep(0, 5)
+constants$beta1_tau <- rep(1, 5)
+constants$beta_p_mu <- rep(0, 15)
+constants$beta_p_tau <- rep(1, 15)
+constants$phi_mu_a <- survival_prior$alpha
+constants$phi_mu_b <- survival_prior$beta
+constants$psi_shape <- 1
+constants$psi_rate <- 0.1
+constants$log_nu_mu <- 2
+constants$log_nu_tau <- 1
 
 data <- nimble_data(data_for_nimble)
 
@@ -159,19 +159,36 @@ inits <- list(n_chains)
 for (i in seq_len(n_chains)) {
   set.seed(i)
   inits[[i]] <- nimble_inits(constants, data, buffer = 200)
-  inits[[i]]$beta1 <- jitter(c(-1, -3.75, -0.25, 0.3, -1.5))
+  inits[[i]]$beta1 <- jitter(c(0.04, -0.9, 0.5, -3, -3))
   inits[[i]]$beta_p <- matrix(
     jitter(
-      c(1.75, 1.5, 0, 0, -0.5, -1.2, 0.15, 0, 0.1, -1.75, -1, 0, -0.75, 0, 0)
+      c(
+        0.6,
+        1.1,
+        2.1,
+        0.4,
+        1.8,
+        1.6,
+        -0.5,
+        1,
+        0,
+        -0.4,
+        -1.9,
+        1.1,
+        0.3,
+        3.4,
+        -0.3
+      )
     ),
     5,
     3
   )
-  inits[[i]]$p_mu <- jitter(c(-4, -3))
-  inits[[i]]$log_gamma <- jitter(c(-3, -2.1))
-  inits[[i]]$log_rho <- jitter(c(0.8, 2.25, 2.15, -1.35, -0.55))
-  inits[[i]]$psi_phi <- runif(1, 0.65, 0.7)
-  inits[[i]]$phi_mu <- runif(1, 0.57, 0.59)
+  inits[[i]]$p_mu <- jitter(c(-0.2, 1.9))
+  inits[[i]]$log_gamma <- jitter(c(-1.4, -2.4))
+  inits[[i]]$log_rho <- jitter(c(0.1, 2.7, 1.8, -1.8, 0.2))
+  inits[[i]]$psi_phi <- runif(1, 0.7, 0.9)
+  inits[[i]]$phi_mu <- runif(1, 0.65, 0.7)
+  inits[[i]]$log_nu <- runif(1, 1.9, 2.1)
 }
 
 write_dir <- file.path("out/MMRM", Sys.Date())
