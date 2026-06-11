@@ -158,35 +158,37 @@ inits <- list(n_chains)
 for (i in seq_len(n_chains)) {
   set.seed(i)
   inits[[i]] <- nimble_inits(constants, data, buffer = 200)
-  inits[[i]]$beta1 <- jitter(c(0.04, -0.9, 0.5, -3, -3))
+  inits[[i]]$beta1 <- rnorm(5, c(0, -2, 1, -4, -1), 0.25)
   inits[[i]]$beta_p <- matrix(
-    jitter(
+    rnorm(
+      15,
       c(
-        0.6,
-        1.1,
-        2.1,
-        0.4,
-        1.8,
-        1.6,
-        -0.5,
-        1,
-        0,
-        -0.4,
-        -1.9,
-        1.1,
-        0.3,
-        3.4,
-        -0.3
-      )
+        0, # [1,1]
+        0, # [2,1]
+        0, # [3,1]
+        -1, # [4,1]
+        2, # [5,1]
+        1.6, # [1,2]
+        1, # [2,2]
+        2, # [3,2]
+        -2.5, # [4,2]
+        4, # [5,2]
+        2, # [1,3]
+        1, # [2,3]
+        0, # [3,3]
+        2, # [4,3]
+        0 # [5,3]
+      ),
+      0.25
     ),
     5,
     3
   )
-  inits[[i]]$p_mu <- jitter(c(-0.2, 1.9))
-  inits[[i]]$log_gamma <- jitter(c(-1.4, -2.4))
-  inits[[i]]$log_rho <- jitter(c(0.1, 2.7, 1.8, -1.8, 0.2))
+  inits[[i]]$p_mu <- rnorm(2, c(0, 2.5), 0.1)
+  inits[[i]]$log_gamma <- rnorm(2, c(-1.4, -2.5), 0.1)
+  inits[[i]]$log_rho <- rnorm(5, c(0, 2.5, 1.75, -2, 0.2), 0.1)
   inits[[i]]$psi_phi <- runif(1, 0.7, 0.9)
-  inits[[i]]$phi_mu <- runif(1, 0.65, 0.7)
+  inits[[i]]$phi_mu <- runif(1, 0.6, 0.7)
   inits[[i]]$log_nu <- runif(1, 1.9, 2.1)
 }
 
