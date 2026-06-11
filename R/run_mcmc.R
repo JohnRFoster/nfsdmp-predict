@@ -13,7 +13,6 @@ library(lubridate)
 library(boaR)
 library(parallel)
 
-readRenviron(".env")
 set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 data_store <- Sys.getenv("dataPath")
 
