@@ -24,6 +24,10 @@ mcmc_dir <- file.path("out/MMRM", run_date)
 read_path <- file.path(wd, mcmc_dir)
 write_path <- file.path(wd, "analysis/MMRM", run_date)
 
+if (!dir.exists(write_path)) {
+	dir.create(write_path, recursive = TRUE)
+}
+
 params_check <- c(
 	"beta_p",
 	"beta1",
