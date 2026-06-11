@@ -14,11 +14,12 @@ library(coda)
 library(ggplot2)
 library(boaR)
 
+set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 fs_path <- Sys.getenv("fs_path")
 project_path <- Sys.getenv("project_path")
 wd <- file.path(fs_path, project_path)
 
-run_date <- "2026-06-10"
+run_date <- "2026-06-11"
 mcmc_dir <- file.path("out/MMRM", run_date)
 
 read_path <- file.path(wd, mcmc_dir)
