@@ -14,7 +14,7 @@ library(boaR)
 library(parallel)
 
 set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
-data_store <- Sys.getenv("dataPath")
+data_store <- Sys.getenv("data_store")
 
 n_chains <- 7
 n_iter <- 50000
