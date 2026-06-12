@@ -154,44 +154,6 @@ constants$log_nu_tau <- 1
 
 data <- nimble_data(data_for_nimble)
 
-inits <- list(n_chains)
-for (i in seq_len(n_chains)) {
-  set.seed(i)
-  inits[[i]] <- nimble_inits(constants, data, buffer = 200)
-  inits[[i]]$beta1 <- rnorm(5, c(0, -2, 1, -4, -1), 0.25)
-  inits[[i]]$beta_p <- matrix(
-    rnorm(
-      15,
-      c(
-        0, # [1,1]
-        0, # [2,1]
-        0, # [3,1]
-        -1, # [4,1]
-        2, # [5,1]
-        1.6, # [1,2]
-        1, # [2,2]
-        2, # [3,2]
-        -2.5, # [4,2]
-        4, # [5,2]
-        2, # [1,3]
-        1, # [2,3]
-        0, # [3,3]
-        2, # [4,3]
-        0 # [5,3]
-      ),
-      0.25
-    ),
-    5,
-    3
-  )
-  inits[[i]]$p_mu <- rnorm(2, c(0, 2.5), 0.1)
-  inits[[i]]$log_gamma <- rnorm(2, c(-1.4, -2.5), 0.1)
-  inits[[i]]$log_rho <- rnorm(5, c(0, 2.5, 1.75, -2, 0.2), 0.1)
-  inits[[i]]$psi_phi <- runif(1, 0.7, 0.9)
-  inits[[i]]$phi_mu <- runif(1, 0.6, 0.7)
-  inits[[i]]$log_nu <- runif(1, 1.9, 2.1)
-}
-
 write_dir <- file.path("out/MMRM", Sys.Date())
 
 modelCode <- nimbleCode({
@@ -290,26 +252,51 @@ modelCode <- nimbleCode({
   }
 })
 
+beta1 <- c(0, -2, 1, -4, -1)
+# fmt: skip
+beta_p <- c(
+	0, 1.6, 2,
+	0, 1, 1,
+	0, 2, 0,
+	-1, -2.5, 2,
+	2, 4, 0
+)
+p_mu <- c(0, 2.5)
+log_gamma <- c(-1.4, -2.5)
+log_rho <- c(0, 2.5, 1.75, -2, 0.2)
+psi_phi <- c(0.7, 0.9)
+phi_mu <- c(0.6, 0.7)
+log_nu <- c(1.9, 2.1)
+
+params_check <- c(
+  "beta_p",
+  "beta1",
+  "log_gamma",
+  "log_rho",
+  "phi_mu",
+  "psi_phi",
+  "log_nu",
+  "p_mu"
+)
+
 cl <- makeCluster(n_chains)
 mcmc_parallel(
   cl = cl,
   model_code = modelCode,
   model_constants = constants,
   model_data = data,
-  model_inits = inits,
-  params_check = c(
-    "beta_p",
-    "beta1",
-    "log_gamma",
-    "log_rho",
-    "phi_mu",
-    "psi_phi",
-    "log_nu",
-    "p_mu"
-  ),
+  params_check = params_check,
   n_iters = n_iter,
   dest = write_dir,
   monitors_add = "N",
   custom_samplers = NULL,
-  export = "calc_log_area"
+  export = "calc_log_area",
+  beta1 = beta1,
+  beta_p = beta_p,
+  p_mu = p_mu,
+  log_gamma = log_gamma,
+  log_rho = log_rho,
+  psi_phi = psi_phi,
+  phi_mu = phi_mu,
+  log_nu = log_nu
 )
