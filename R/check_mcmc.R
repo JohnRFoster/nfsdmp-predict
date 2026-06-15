@@ -17,6 +17,7 @@ library(boaR)
 set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 fs_path <- Sys.getenv("fs_path")
 project_path <- Sys.getenv("project_path")
+data_store <- Sys.getenv("data_store")
 wd <- file.path(fs_path, project_path)
 
 run_date <- "2026-06-12"
@@ -40,8 +41,12 @@ params_check <- c(
 	"p_mu"
 )
 
+data_for_nimble <- read_csv(file.path(data_store, "masked_mis_data.csv")) |>
+	mutate(property = propertyID, county = county_code)
+
 mcmc_diagnostics(
 	mcmc_dir = read_path,
 	dest = write_path,
+	data = data_for_nimble,
 	params_check = params_check
 )
