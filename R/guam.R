@@ -16,7 +16,7 @@ n_chains <- 3
 pull_date <- "2026-03-25"
 post_round <- "first"
 
-config_name <- "dev_parallel"
+config_name <- "prod"
 config <- config::get(config = config_name)
 n_iter <- config$n_iter
 
