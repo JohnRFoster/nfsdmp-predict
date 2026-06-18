@@ -56,7 +56,7 @@ params_check <- config$params_check
 cl <- makeCluster(n_chains, type = config$cluster_type)
 mcmc_parallel(
 	cl = cl,
-	model_code = modelCode,
+	model_code = nimble_removal_model(),
 	model_constants = constants,
 	model_data = data,
 	params_check = params_check,
