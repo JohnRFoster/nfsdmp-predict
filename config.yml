@@ -4,6 +4,7 @@ default:
   n_iter: 1000
   n_chains: 1
   mcmc_dir: "out/dev"
+  cluster_type: "PSOCK"
   params_check: !expr c("beta_p","beta1","log_gamma","log_rho","phi_mu","psi_phi","log_nu","p_mu")
 
 dev_parallel:
@@ -12,5 +13,6 @@ dev_parallel:
 
 prod:
   n_chains: 3
-  n_iter: 10000
+  n_iter: 50000
   mcmc_dir: "out/production"
+  cluster_type: "FORK"
