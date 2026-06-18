@@ -49,6 +49,15 @@ constants <- nimble_constants(
 	post_round = "first"
 )
 
+# these booleans need to be defined to build the correct model
+model_flags <- get_model_flags(constants)
+
+single_property <- model_flags$single_property
+single_method <- model_flags$single_method
+use_shooting <- model_flags$use_shooting
+use_traps_and_snares <- model_flags$use_traps_and_snares
+use_traps_or_snares <- model_flags$use_traps_or_snares
+
 data <- nimble_data(data_for_nimble)
 
 params_check <- config$params_check
