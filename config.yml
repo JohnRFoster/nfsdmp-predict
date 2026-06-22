@@ -15,4 +15,3 @@ prod:
   n_chains: 3
   n_iter: 50000
   mcmc_dir: "out/production"
-  cluster_type: "FORK"
