@@ -51,15 +51,7 @@ constants <- nimble_constants(
 
 # these booleans need to be defined to build the correct model
 model_flags <- get_model_flags(constants)
-
-single_property <- model_flags$single_property
-single_method <- model_flags$single_method
-use_shooting <- model_flags$use_shooting
-use_traps_and_snares <- model_flags$use_traps_and_snares
-use_traps_or_snares <- model_flags$use_traps_or_snares
-
 data <- nimble_data(data_for_nimble)
-
 params_check <- config$params_check
 
 cl <- makeCluster(n_chains, type = config$cluster_type)
@@ -67,6 +59,7 @@ mcmc_parallel(
 	cl = cl,
 	model_constants = constants,
 	model_data = data,
+	model_flags = model_flags,
 	params_check = params_check,
 	n_iters = n_iter,
 	dest = write_dir,
