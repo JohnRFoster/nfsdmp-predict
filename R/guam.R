@@ -50,7 +50,7 @@ constants <- nimble_constants(
 )
 
 # these booleans need to be defined to build the correct model
-model_flags <- get_model_flags(constants)
+model_flags <- get_model_flags(data_for_nimble)
 data <- nimble_data(data_for_nimble)
 params_check <- config$params_check
 
