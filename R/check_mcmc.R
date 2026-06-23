@@ -21,10 +21,16 @@ data_store <- Sys.getenv("data_store")
 wd <- file.path(fs_path, project_path)
 
 run_date <- "2026-06-22"
-mcmc_dir <- file.path("out/Guam", run_date)
+project <- "Guam"
+
+# raw mcmc chunks stored here
+mcmc_dir <- file.path("out", project, run_date)
+
+# collated posterior diagnostics go here
+analysis_dir <- file.path("analysis", project, run_date)
 
 read_path <- file.path(wd, mcmc_dir)
-write_path <- file.path(wd, "analysis/MMRM", run_date)
+write_path <- file.path(wd, analysis_dir)
 
 if (!dir.exists(write_path)) {
 	dir.create(write_path, recursive = TRUE)
