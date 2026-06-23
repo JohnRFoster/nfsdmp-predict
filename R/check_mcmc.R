@@ -47,8 +47,25 @@ params_check <- c(
 	"p_mu"
 )
 
-data_for_nimble <- read_csv(file.path(data_store, "masked_mis_data.csv")) |>
-	mutate(property = propertyID, county = county_code)
+# processed MIS data lives here organized by pull date
+mis <- "MIS"
+mis_processed <- "processed"
+file_name <- "dev_MIS.Effort.Take.all_methods.Daily.Events.csv"
+pull_date <- "2026-03-25"
+
+config_name <- "prod"
+config <- config::get(config = config_name)
+interval <- config$interval
+create_new <- config$create_new
+
+fname <- file.path(data_store, mis, pull_date, mis_processed, file_name)
+data_mis <- get_data(fname, interval, create_new)
+
+data_for_nimble <- data_mis |>
+	filter(st_name == "GUAM") |>
+	mutate(
+		across(starts_with("c_"), ~0)
+	)
 
 mcmc_diagnostics(
 	mcmc_dir = read_path,
