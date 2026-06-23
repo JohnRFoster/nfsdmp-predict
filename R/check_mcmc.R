@@ -20,8 +20,8 @@ project_path <- Sys.getenv("project_path")
 data_store <- Sys.getenv("data_store")
 wd <- file.path(fs_path, project_path)
 
-run_date <- "2026-06-12"
-mcmc_dir <- file.path("out/MMRM", run_date)
+run_date <- "2026-06-22"
+mcmc_dir <- file.path("out/Guam", run_date)
 
 read_path <- file.path(wd, mcmc_dir)
 write_path <- file.path(wd, "analysis/MMRM", run_date)
