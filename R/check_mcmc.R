@@ -20,8 +20,8 @@ project_path <- Sys.getenv("project_path")
 data_store <- Sys.getenv("data_store")
 wd <- file.path(fs_path, project_path)
 
-run_date <- "2026-06-22"
-project <- "Guam"
+run_date <- "2026-06-25"
+project <- "US-territories"
 
 # raw mcmc chunks stored here
 mcmc_dir <- file.path("out", project, run_date)
@@ -33,18 +33,18 @@ read_path <- file.path(wd, mcmc_dir)
 write_path <- file.path(wd, analysis_dir)
 
 if (!dir.exists(write_path)) {
-	dir.create(write_path, recursive = TRUE)
+  dir.create(write_path, recursive = TRUE)
 }
 
 params_check <- c(
-	"beta_p",
-	"beta1",
-	"log_gamma",
-	"log_rho",
-	"phi_mu",
-	"psi_phi",
-	"log_nu",
-	"p_mu"
+  "beta_p",
+  "beta1",
+  "log_gamma",
+  "log_rho",
+  "phi_mu",
+  "psi_phi",
+  "log_nu",
+  "p_mu"
 )
 
 # processed MIS data lives here organized by pull date
@@ -61,15 +61,26 @@ create_new <- config$create_new
 fname <- file.path(data_store, mis, pull_date, mis_processed, file_name)
 data_mis <- get_data(fname, interval, create_new)
 
+territories <- c(
+  "AMERICAN SAMOA",
+  "GUAM",
+  "NORTHERN MARIANA ISLANDS",
+  "PUERTO RICO",
+  "VIRGIN ISLANDS"
+)
+
 data_for_nimble <- data_mis |>
-	filter(st_name == "GUAM") |>
-	mutate(
-		across(starts_with("c_"), ~0)
-	)
+  filter(st_name %in% territories) |>
+  mutate(
+    across(starts_with("c_"), ~0)
+  )
+
+fname <- file.path(write_path, "data_for_nimble.csv")
+write_csv(data_for_nimble, fname)
 
 mcmc_diagnostics(
-	mcmc_dir = read_path,
-	dest = write_path,
-	data = data_for_nimble,
-	params_check = params_check
+  mcmc_dir = read_path,
+  dest = write_path,
+  data = data_for_nimble,
+  params_check = params_check
 )
