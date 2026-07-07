@@ -279,10 +279,8 @@ params_check <- c(
   "p_mu"
 )
 
-cl <- makeCluster(n_chains)
 mcmc_parallel(
-  cl = cl,
-  model_code = modelCode,
+  n_chains = n_chains,
   model_constants = constants,
   model_data = data,
   params_check = params_check,
