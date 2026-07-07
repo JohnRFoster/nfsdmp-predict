@@ -279,10 +279,13 @@ params_check <- c(
   "p_mu"
 )
 
+model_flags <- get_model_flags(data_for_nimble)
+
 mcmc_parallel(
   n_chains = n_chains,
   model_constants = constants,
   model_data = data,
+  model_flags = model_flags,
   params_check = params_check,
   n_iters = n_iter,
   dest = write_dir,
