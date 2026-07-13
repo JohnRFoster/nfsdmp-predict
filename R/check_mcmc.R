@@ -20,7 +20,7 @@ project_path <- Sys.getenv("project_path")
 data_store <- Sys.getenv("data_store")
 wd <- file.path(fs_path, project_path)
 
-run_date <- "2026-07-07"
+run_date <- "2026-07-10"
 project <- "MMRM"
 
 # raw mcmc chunks stored here
