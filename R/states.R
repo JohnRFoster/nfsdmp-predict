@@ -45,28 +45,29 @@ data_complete <- data_mis |>
   filter(!is.na(c_road_den), !is.na(c_rugged), !is.na(c_canopy))
 
 jobs <- unique(data_complete$st_name)
+# length(jobs) = 23
 
-i = 14
+# get the array number from slurm
+task_id <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 
-st <- jobs[i]
-
-message("State: ", st)
+st <- jobs[task_id]
 
 data_for_nimble <- data_complete |> filter(st_name == st)
 
-path <- file.path("data", project)
+path <- file.path("data", project, paste0("run-date-", Sys.Date()))
 
 if (!dir.exists(path)) {
   dir.create(path, showWarnings = FALSE, recursive = TRUE)
 }
 
-fname <- paste0("data_for_nimble-", Sys.Date(), "-", st, ".csv")
+fname <- paste0("data_for_nimble-", pull_date, "-", st, ".csv")
 write_csv(data_for_nimble, fname)
 
 n <- nrow(data_for_nimble)
 np <- length(unique(data_for_nimble$propertyID))
 nm <- length(unique(data_for_nimble$method))
 
+message("State: ", st)
 message("n events: ", n)
 message("n properties: ", np)
 message("n methods: ", nm)
