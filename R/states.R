@@ -111,7 +111,7 @@ mcmc_parallel(
   model_flags = model_flags,
   params_check = params_check,
   n_iters = n_iter,
-  dest = write_dir,
+  dest = file.path(path, "mcmc"),
   monitors_add = "N",
   custom_samplers = NULL,
   export = "calc_log_area"
