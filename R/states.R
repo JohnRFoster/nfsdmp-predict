@@ -88,6 +88,7 @@ n <- nrow(data_for_nimble)
 np <- length(unique(data_for_nimble$propertyID))
 nm <- length(unique(data_for_nimble$method))
 
+message("\n")
 message("State: ", st)
 message("n events: ", n)
 message("n properties: ", np)
