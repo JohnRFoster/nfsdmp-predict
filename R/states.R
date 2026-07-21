@@ -44,8 +44,32 @@ data_mis <- get_data(df, interval, create_new)
 data_complete <- data_mis |> 
   filter(!is.na(c_road_den), !is.na(c_rugged), !is.na(c_canopy))
 
-jobs <- unique(data_complete$st_name)
+jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
+
+# 1 FLORIDA
+# 2 GEORGIA
+# 3 ILLINOIS
+# 4 INDIANA
+# 5 KANSAS
+# 6 KENTUCKY
+# 7 LOUISIANA
+# 8 MISSISSIPPI
+# 9 MISSOURI
+# 10 NEVADA
+# 11 NEW MEXICO
+# 12 NEW YORK
+# 13 NORTH CAROLINA
+# 14 OHIO
+# 15 OKLAHOMA
+# 16 OREGON
+# 17 PENNSYLVANIA
+# 18 SOUTH CAROLINA
+# 19 TENNESSEE
+# 20 TEXAS
+# 21 VIRGINIA
+# 22 WEST VIRGINIA
+# 23 WISCONSIN
 
 # get the array number from slurm
 task_id <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
