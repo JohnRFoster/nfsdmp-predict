@@ -12,7 +12,7 @@ data_store <- Sys.getenv("data_store")
 
 project <- "states"
 
-write_dir <- file.path("out", project, Sys.Date())
+write_dir <- file.path("out", project)
 
 n_chains <- 3
 pull_date <- "2026-03-25"
@@ -78,14 +78,11 @@ st <- jobs[task_id]
 
 data_for_nimble <- data_complete |> filter(st_name == st)
 
-path <- file.path("data", project, paste0("run-date-", Sys.Date()))
+path <- file.path(write_dir, st, Sys.Date())
 
 if (!dir.exists(path)) {
   dir.create(path, showWarnings = FALSE, recursive = TRUE)
 }
-
-fname <- paste0("data_for_nimble-", pull_date, "-", st, ".csv")
-write_csv(data_for_nimble, fname)
 
 n <- nrow(data_for_nimble)
 np <- length(unique(data_for_nimble$propertyID))
