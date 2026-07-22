@@ -18,6 +18,13 @@ n_chains <- 3
 pull_date <- "2026-03-25"
 post_round <- "first"
 
+project_pull <- paste0(project, "-", pull_date)
+path <- file.path(write_dir, project_pull, st)
+
+if (!dir.exists(path)) {
+  dir.create(path, showWarnings = FALSE, recursive = TRUE)
+}
+
 config_name <- "prod"
 config <- config::get(config = config_name)
 n_iter <- config$n_iter
@@ -81,12 +88,6 @@ data_for_nimble <- data_complete |>
   select(-p) |> 
   mutate(primary_period = primary_period - min(primary_period) + 1)
 
-path <- file.path(write_dir, st, paste0(project, "-", pull_date))
-
-if (!dir.exists(path)) {
-  dir.create(path, showWarnings = FALSE, recursive = TRUE)
-}
-
 n <- nrow(data_for_nimble)
 np <- length(unique(data_for_nimble$propertyID))
 nm <- length(unique(data_for_nimble$method))
@@ -125,8 +126,6 @@ mcmc_parallel(
 )
 
 # analysis
-# dest <- "out/states/INDIANA/2026-07-21/mcmc"
-# path <- "out/states/ILLINOIS/2026-07-21"
 analysis_dir <- file.path(path, "analysis")
 if (!dir.exists(analysis_dir)) {
   dir.create(analysis_dir, showWarnings = FALSE, recursive = TRUE)
