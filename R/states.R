@@ -76,7 +76,10 @@ task_id <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 
 st <- jobs[task_id]
 
-data_for_nimble <- data_complete |> filter(st_name == st)
+data_for_nimble <- data_complete |> 
+  filter(st_name == st) |> 
+  select(-p) |> 
+  mutate(primary_period = primary_period - min(primary_period) + 1)
 
 path <- file.path(write_dir, st, Sys.Date())
 
@@ -104,7 +107,10 @@ data <- nimble_data(data_for_nimble)
 # these booleans need to be defined to build the correct model
 model_flags <- get_model_flags(data_for_nimble)
 params_check <- config$params_check
+dest <- file.path(path, "mcmc")
 
+# runs the mcmc and saves chunks of samples
+# will run until conveged
 mcmc_parallel(
   n_chains = n_chains,
   model_constants = constants,
@@ -112,10 +118,26 @@ mcmc_parallel(
   model_flags = model_flags,
   params_check = params_check,
   n_iters = n_iter,
-  dest = file.path(path, "mcmc"),
+  dest = dest,
   monitors_add = "N",
   custom_samplers = NULL,
   export = "calc_log_area"
 )
+
+# analysis
+# dest <- "out/states/INDIANA/2026-07-21/mcmc"
+# path <- "out/states/ILLINOIS/2026-07-21"
+analysis_dir <- file.path(path, "analysis")
+if (!dir.exists(analysis_dir)) {
+  dir.create(analysis_dir, showWarnings = FALSE, recursive = TRUE)
+}
+
+mcmc_diagnostics(
+  mcmc_dir = dest,
+  dest = analysis_dir,
+  data = data_for_nimble,
+  params_check = params_check
+)
+
 
 
