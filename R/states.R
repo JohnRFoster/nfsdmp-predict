@@ -19,11 +19,6 @@ pull_date <- "2026-03-25"
 post_round <- "first"
 
 project_pull <- paste0(project, "-", pull_date)
-path <- file.path(write_dir, project_pull, st)
-
-if (!dir.exists(path)) {
-  dir.create(path, showWarnings = FALSE, recursive = TRUE)
-}
 
 config_name <- "prod"
 config <- config::get(config = config_name)
@@ -82,6 +77,12 @@ jobs <- sort(unique(data_complete$st_name))
 task_id <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 
 st <- jobs[task_id]
+
+path <- file.path(write_dir, project_pull, st)
+
+if (!dir.exists(path)) {
+  dir.create(path, showWarnings = FALSE, recursive = TRUE)
+}
 
 data_for_nimble <- data_complete |> 
   filter(st_name == st) |> 
