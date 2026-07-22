@@ -81,7 +81,7 @@ data_for_nimble <- data_complete |>
   select(-p) |> 
   mutate(primary_period = primary_period - min(primary_period) + 1)
 
-path <- file.path(write_dir, st, Sys.Date())
+path <- file.path(write_dir, st, paste0(project, "-", pull_date))
 
 if (!dir.exists(path)) {
   dir.create(path, showWarnings = FALSE, recursive = TRUE)
