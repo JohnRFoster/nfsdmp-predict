@@ -43,13 +43,14 @@ df <- readr::read_csv(fname, show_col_types = FALSE)
 
 data_mis <- get_data(df, interval, create_new)
 
-data_complete <- data_mis |> 
+data_complete <- data_mis |>
   filter(!is.na(c_road_den), !is.na(c_rugged), !is.na(c_canopy))
 
 jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
 
 # 1 FLORIDA
+# -------------------------------------
 # 2 GEORGIA
 # 3 ILLINOIS
 # 4 INDIANA
@@ -84,20 +85,22 @@ if (!dir.exists(path)) {
   dir.create(path, showWarnings = FALSE, recursive = TRUE)
 }
 
-data_for_nimble <- data_complete |> 
-  filter(st_name == st) |> 
-  select(-p) |> 
+data_for_nimble <- data_complete |>
+  filter(st_name == st) |>
+  select(-p) |>
   mutate(primary_period = primary_period - min(primary_period) + 1)
 
 n <- nrow(data_for_nimble)
 np <- length(unique(data_for_nimble$propertyID))
 nm <- length(unique(data_for_nimble$method))
+method_names <- data_for_nimble$method
+methods <- unique(method_names)
 
 message("\n")
 message("State: ", st)
 message("n events: ", n)
 message("n properties: ", np)
-message("n methods: ", nm)
+message("n methods: ", nm, " (", paste(methods, collapse = ", "), ")")
 
 constants <- nimble_constants(
   df = data_for_nimble,
@@ -105,6 +108,20 @@ constants <- nimble_constants(
   post_round = "first"
 )
 data <- nimble_data(data_for_nimble)
+
+# not all states use all methods, so we need to create a lookup table
+# for the methods used in each state beacuse the indexes will change
+# given the unique methods used in each state
+method_lookup_table <- tibble(
+  method_names = method_names,
+  m_vec = boaR:::method_factors(data_for_nimble),
+  ts_id = constants$ts_id
+) |>
+  mutate(method_idx = as.numeric(as.factor(m_vec))) |>
+  distinct() |>
+  arrange(method_idx)
+
+write_rds(method_lookup_table, file.path(path, "method_lookup_table.rds"))
 
 # these booleans need to be defined to build the correct model
 model_flags <- get_model_flags(data_for_nimble)
@@ -123,7 +140,8 @@ mcmc_parallel(
   dest = dest,
   monitors_add = "N",
   custom_samplers = NULL,
-  export = "calc_log_area"
+  export = "calc_log_area",
+  buffer = 500
 )
 
 # analysis
@@ -138,6 +156,3 @@ mcmc_diagnostics(
   data = data_for_nimble,
   params_check = params_check
 )
-
-
-
