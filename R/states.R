@@ -14,7 +14,7 @@ project <- "states"
 
 write_dir <- file.path("out", project)
 
-n_chains <- Sys.getenv("SLURM_CPUS_PER_TASK")
+n_chains <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK"))
 message("n_chains: ", n_chains)
 
 pull_date <- "2026-03-25"
