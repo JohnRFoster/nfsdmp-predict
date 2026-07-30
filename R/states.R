@@ -14,7 +14,7 @@ project <- "states"
 
 write_dir <- file.path("out", project)
 
-n_chains <- 3
+n_chains <- Sys.getenv("SLURM_CPUS_PER_TASK")
 pull_date <- "2026-03-25"
 post_round <- "first"
 
@@ -50,7 +50,6 @@ jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
 
 # 1 FLORIDA
-# -------------------------------------
 # 2 GEORGIA
 # 3 ILLINOIS
 # 4 INDIANA
@@ -74,10 +73,8 @@ jobs <- sort(unique(data_complete$st_name))
 # 22 WEST VIRGINIA
 # 23 WISCONSIN
 
-# get the array number from slurm
-task_id <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID"))
-
-st <- jobs[task_id]
+# get the STATENAME from bash script
+st <- Sys.getenv("STATENAME")
 
 path <- file.path(write_dir, project_pull, st)
 
