@@ -75,6 +75,8 @@ jobs <- sort(unique(data_complete$st_name))
 
 # get the STATENAME from bash script
 st <- Sys.getenv("STATENAME")
+message("\n")
+message("STATENAME: ", st)
 
 path <- file.path(write_dir, project_pull, st)
 
@@ -93,8 +95,6 @@ nm <- length(unique(data_for_nimble$method))
 method_names <- data_for_nimble$method
 methods <- unique(method_names)
 
-message("\n")
-message("State: ", st)
 message("n events: ", n)
 message("n properties: ", np)
 message("n methods: ", nm, " (", paste(methods, collapse = ", "), ")")
