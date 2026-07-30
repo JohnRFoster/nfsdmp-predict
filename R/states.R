@@ -15,6 +15,8 @@ project <- "states"
 write_dir <- file.path("out", project)
 
 n_chains <- Sys.getenv("SLURM_CPUS_PER_TASK")
+message("n_chains: ", n_chains)
+
 pull_date <- "2026-03-25"
 post_round <- "first"
 
@@ -49,29 +51,29 @@ data_complete <- data_mis |>
 jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
 
-# 1 FLORIDA
-# 2 GEORGIA
-# 3 ILLINOIS
-# 4 INDIANA
-# 5 KANSAS
-# 6 KENTUCKY
-# 7 LOUISIANA
-# 8 MISSISSIPPI
-# 9 MISSOURI
-# 10 NEVADA
-# 11 NEW MEXICO
-# 12 NEW YORK
-# 13 NORTH CAROLINA
-# 14 OHIO
-# 15 OKLAHOMA
-# 16 OREGON
-# 17 PENNSYLVANIA
-# 18 SOUTH CAROLINA
-# 19 TENNESSEE
-# 20 TEXAS
-# 21 VIRGINIA
-# 22 WEST VIRGINIA
-# 23 WISCONSIN
+# [] FLORIDA
+# [] GEORGIA
+# [x] ILLINOIS
+# [] INDIANA
+# [] KANSAS
+# [] KENTUCKY
+# [] LOUISIANA
+# [] MISSISSIPPI
+# [] MISSOURI
+# [] NEVADA
+# [] NEW MEXICO
+# [] NEW YORK
+# [] NORTH CAROLINA
+# [] OHIO
+# [] OKLAHOMA
+# [] OREGON
+# [] PENNSYLVANIA
+# [] SOUTH CAROLINA
+# [] TENNESSEE
+# [] TEXAS
+# [] VIRGINIA
+# [] WEST VIRGINIA
+# [] WISCONSIN
 
 # get the STATENAME from bash script
 st <- Sys.getenv("STATENAME")
