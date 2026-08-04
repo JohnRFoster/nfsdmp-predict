@@ -51,32 +51,9 @@ data_complete <- data_mis |>
 jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
 
-# [] FLORIDA
-# [] GEORGIA
-# [x] ILLINOIS
-# [] INDIANA
-# [] KANSAS
-# [] KENTUCKY
-# [] LOUISIANA
-# [] MISSISSIPPI
-# [] MISSOURI
-# [] NEVADA
-# [] NEW MEXICO
-# [] NEW YORK
-# [] NORTH CAROLINA
-# [] OHIO
-# [] OKLAHOMA
-# [] OREGON
-# [] PENNSYLVANIA
-# [] SOUTH CAROLINA
-# [] TENNESSEE
-# [] TEXAS
-# [] VIRGINIA
-# [] WEST VIRGINIA
-# [] WISCONSIN
-
 # get the STATENAME from bash script
 st <- Sys.getenv("STATENAME")
+st <- if_else(st == "", "NEW YORK", st) # for testing
 message("\n")
 message("STATENAME: ", st)
 
