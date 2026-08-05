@@ -1,3 +1,13 @@
+#' Function to get MCMC initial values depending on the state being modeled
+#'
+#' @title state_inits
+#'
+#' @param STATE_NAME The state being modeled, uppercase (i.e. "FLORIDA")
+#' @details if no `STATE_NAME` is given, return NULL for each parameter, initial conditions based
+#' on posterior distributions from the original fit in Foster et al. 2026
+#'
+#' @author John Foster
+
 state_inits <- function(state_name) {
 	out <- list()
 	out$beta1 <- NULL
