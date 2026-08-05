@@ -35,6 +35,23 @@ state_inits <- function(state_name) {
 		out$phi_mu <- c(0.58, 0.63)
 		out$log_nu <- c(2.5, 2.6)
 	}
+
+	if (state_name == "GEORGIA") {
+		out$beta1 <- c(-1, 0.2, -6, -3.1)
+		# fmt: skip
+		out$beta_p <- c(
+					1, 1.5, -0.5,
+					0.1, 0.5, -0.5,
+					-0.75, -2, 0,
+					0.1, 0.45, -0.3
+				)
+		out$p_mu <- c(-2, 1.5)
+		out$log_gamma <- c(-1, -2.75)
+		out$log_rho <- c(-0.75, 1.35, -2, 0.2)
+		out$psi_phi <- c(0.9, 1.0)
+		out$phi_mu <- c(0.63, 0.7)
+		out$log_nu <- c(2.35, 2.4)
+	}
 	out
 }
 
@@ -50,7 +67,7 @@ state_inits <- function(state_name) {
 # 		)
 # p_mu <- c(NA, NA) means
 # log_gamma <- c(NA, NA) means
-# log_rho <- c(-NA, NA, NA, NA, NA) means
+# log_rho <- c(NA, NA, NA, NA, NA) means
 # psi_phi <-c(NA, NA) ranges
 # phi_mu <- c(NA, NA) ranges
 # log_nu <- c(NA, NA) ranges
