@@ -104,6 +104,10 @@ model_flags <- get_model_flags(data_for_nimble)
 params_check <- config$params_check
 dest <- file.path(path, "mcmc")
 
+# get inits for each state
+
+init_list <- state_inits(st)
+
 # runs the mcmc and saves chunks of samples
 # will run until conveged
 mcmc_parallel(
@@ -117,7 +121,15 @@ mcmc_parallel(
   monitors_add = "N",
   custom_samplers = NULL,
   export = "calc_log_area",
-  buffer = 500
+  buffer = 500,
+  beta1 = init_list$beta1,
+  beta_p = init_list$beta_p,
+  p_mu = init_list$p_mu,
+  log_gamma = init_list$log_gamma,
+  log_rho = init_list$log_rho,
+  psi_phi = init_list$psi_phi,
+  phi_mu = init_list$phi_mu,
+  log_nu = init_list$log_nu
 )
 
 # analysis
