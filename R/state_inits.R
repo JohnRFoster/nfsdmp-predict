@@ -20,7 +20,7 @@ state_inits <- function(state_name) {
 	out$log_nu <- NULL
 
 	if (state_name == "FLORIDA") {
-		out$beta1 <- c(0, 2, -5.5, -3.25, NA)
+		out$beta1 <- c(0, 2, -5.5, -3.25)
 		# fmt: skip
 		out$beta_p <- c(
 			0, 2, -1,
