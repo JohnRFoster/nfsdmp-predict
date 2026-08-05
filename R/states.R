@@ -7,6 +7,8 @@ library(lubridate)
 library(boaR)
 library(parallel)
 
+source("R/state_inits.R")
+
 set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 data_store <- Sys.getenv("data_store")
 
