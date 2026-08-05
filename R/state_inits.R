@@ -40,17 +40,35 @@ state_inits <- function(state_name) {
 		out$beta1 <- c(-1, 0.2, -6, -3.1)
 		# fmt: skip
 		out$beta_p <- c(
-					1, 1.5, -0.5,
-					0.1, 0.5, -0.5,
-					-0.75, -2, 0,
-					0.1, 0.45, -0.3
-				)
+			1, 1.5, -0.5,
+			0.1, 0.5, -0.5,
+			-0.75, -2, 0,
+			0.1, 0.45, -0.3
+		)
 		out$p_mu <- c(-2, 1.5)
 		out$log_gamma <- c(-1, -2.75)
 		out$log_rho <- c(-0.75, 1.35, -2, 0.2)
 		out$psi_phi <- c(0.9, 1.0)
 		out$phi_mu <- c(0.63, 0.7)
 		out$log_nu <- c(2.35, 2.4)
+	}
+
+	if (state_name == "OKLAHOMA") {
+		out$beta1 <- c(0.5, -3.75, -0.8, -3.5, -2.9)
+		# fmt: skip
+		out$beta_p <- c(
+			-0.2, 0.5, 1,
+			0.4, -0.25, -1,
+			0.1, 0.5, -0.35,
+			0, -1.5, 0,
+			0.125, 0.3, -0.4
+		)
+		out$p_mu <- c(0, 0)
+		out$log_gamma <- c(-1.5, -3.5)
+		out$log_rho <- c(-1.25, 0.37, -1.92, -2, 0.2)
+		out$psi_phi <- c(0.75, 0.8)
+		out$phi_mu <- c(0.55, 0.6)
+		out$log_nu <- c(2.55, 2.65)
 	}
 	out
 }
