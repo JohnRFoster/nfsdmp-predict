@@ -20,24 +20,27 @@ state_inits <- function(state_name) {
 	out$log_nu <- NULL
 
 	if (state_name == "FLORIDA") {
-		out$beta1 <- data.frame(
-			min = c(-1, 1, -4, -2),
-			max = c(1, 3, -8, -5)
+		out$beta1 <- tribble(
+			~min , ~max ,
+			  -1 ,    1 ,
+			   1 ,    3 ,
+			  -8 ,   -4 ,
+			  -5 ,   -2
 		)
 		out$beta_p <- tribble(
 			~min , ~max ,
 			-1   ,  1   , # [1, 1]
 			 1   ,  4   , # [1, 2]
-			-0.5 , -3   , # [1, 3]
+			-3   , -0.5 , # [1, 3]
 			-1   ,  1   , # [2, 1]
 			 0   ,  3   , # [2, 2]
 			-1   ,  1   , # [2, 3]
 			 0   ,  1   , # [3, 1]
-			-0.5 , -2   , # [3, 2]
+			-2   , -0.5 , # [3, 2]
 			 0.5 ,  1.5 , # [3, 3]
 			-1   ,  1   , # [4, 1]
 			 0.5 ,  2   , # [4, 2]
-			 0   , -1 # [4, 3]
+			-1   ,  0 # [4, 3]
 		)
 
 		out$p_mu <- data.frame(
@@ -48,9 +51,12 @@ state_inits <- function(state_name) {
 			min = c(-2, -4),
 			max = c(0, -2)
 		)
-		out$log_rho <- data.frame(
-			min = c(-2, 0, -3, 0),
-			max = c(0, 2, -1, 0.5)
+		out$log_rho <- tribble(
+			~min , ~max ,
+			-2   ,    0 ,
+			 0   ,    2 ,
+			-3   ,   -1 ,
+			-0.5 ,    0
 		)
 		out$psi_phi <- c(0.58, 0.63)
 		out$phi_mu <- c(0.58, 0.63)
@@ -95,29 +101,47 @@ state_inits <- function(state_name) {
 }
 
 # Template if all methods used
-# beta1 <- c(NA, NA, NA, NA, NA) means
-# fmt: skip
+# out$beta1 <- tribble(
+# 	~min , ~max ,
+# 	  NA ,   NA ,
+# 	  NA ,   NA ,
+# 	  NA ,   NA ,
+# 	  NA ,   NA
+# )
 # out$beta_p <- tribble(
-# 			~min , ~max ,
-# 			NA   ,  NA  , # [1, 1]
-# 			NA   ,  NA  , # [1, 2]
-# 			NA   ,  NA  , # [1, 3]
-# 			NA   ,  NA  , # [2, 1]
-# 			NA   ,  NA  , # [2, 2]
-# 			NA   ,  NA  , # [2, 3]
-# 			NA   ,  NA  , # [3, 1]
-# 			NA   ,  NA  , # [3, 2]
-# 			NA   ,  NA  , # [3, 3]
-# 			NA   ,  NA  , # [4, 1]
-# 			NA   ,  NA  , # [4, 2]
-# 			NA   ,  NA  , # [4, 3]
-# 			NA   ,  NA  , # [5, 1]
-# 			NA   ,  NA  , # [5, 2]
-# 			NA   ,  NA    # [5, 3]
-#		)
-# p_mu <- c(NA, NA) means
-# log_gamma <- c(NA, NA) means
-# log_rho <- c(NA, NA, NA, NA, NA) means
-# psi_phi <-c(NA, NA) ranges
-# phi_mu <- c(NA, NA) ranges
-# log_nu <- c(NA, NA) ranges
+# 	~min , ~max ,
+# 	NA   , NA   , # [1, 1]
+# 	NA   , NA   , # [1, 2]
+# 	NA   , NA   , # [1, 3]
+# 	NA   , NA   , # [2, 1]
+# 	NA   , NA   , # [2, 2]
+# 	NA   , NA   , # [2, 3]
+# 	NA   , NA   , # [3, 1]
+# 	NA   , NA   , # [3, 2]
+# 	NA   , NA   , # [3, 3]
+# 	NA   , NA   , # [4, 1]
+# 	NA   , NA   , # [4, 2]
+# 	NA   , NA   , # [4, 3]
+# 	NA   , NA   , # [5, 1]
+# 	NA   , NA   , # [5, 2]
+# 	NA   , NA     # [5, 3]
+# )
+
+# out$p_mu <- data.frame(
+# 	min = c(NA, NA),
+# 	max = c(NA, NA)
+# )
+# out$log_gamma <- data.frame(
+# 	min = c(NA, NA),
+# 	max = c(NA, NA)
+# )
+# out$log_rho <- tribble(
+# 	~min , ~max ,
+# 	NA   ,    NA ,
+# 	NA   ,    NA ,
+# 	NA   ,    NA ,
+# 	NA   ,    NA
+# )
+# out$psi_phi <- c(NA, NA)
+# out$phi_mu <- c(NA, NA)
+# out$log_nu <- c(NA, NA)
