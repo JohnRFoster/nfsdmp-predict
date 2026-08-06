@@ -55,7 +55,7 @@ jobs <- sort(unique(data_complete$st_name))
 
 # get the STATENAME from bash script
 st <- Sys.getenv("STATENAME")
-st <- if_else(st == "", "NEW YORK", st) # for testing
+st <- if_else(st == "", "FLORIDA", st) # for testing
 message("\n")
 message("STATENAME: ", st)
 
