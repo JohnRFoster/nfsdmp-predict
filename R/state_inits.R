@@ -97,24 +97,24 @@ state_inits <- function(state_name) {
 # Template if all methods used
 # beta1 <- c(NA, NA, NA, NA, NA) means
 # fmt: skip
-out$beta_p <- tribble(
-			~min , ~max ,
-			NA   ,  NA  , # [1, 1]
-			NA   ,  NA  , # [1, 2]
-			NA   ,  NA  , # [1, 3]
-			NA   ,  NA  , # [2, 1]
-			NA   ,  NA  , # [2, 2]
-			NA   ,  NA  , # [2, 3]
-			NA   ,  NA  , # [3, 1]
-			NA   ,  NA  , # [3, 2]
-			NA   ,  NA  , # [3, 3]
-			NA   ,  NA  , # [4, 1]
-			NA   ,  NA  , # [4, 2]
-			NA   ,  NA  , # [4, 3]
-			NA   ,  NA  , # [5, 1]
-			NA   ,  NA  , # [5, 2]
-			NA   ,  NA    # [5, 3]
-		)
+# out$beta_p <- tribble(
+# 			~min , ~max ,
+# 			NA   ,  NA  , # [1, 1]
+# 			NA   ,  NA  , # [1, 2]
+# 			NA   ,  NA  , # [1, 3]
+# 			NA   ,  NA  , # [2, 1]
+# 			NA   ,  NA  , # [2, 2]
+# 			NA   ,  NA  , # [2, 3]
+# 			NA   ,  NA  , # [3, 1]
+# 			NA   ,  NA  , # [3, 2]
+# 			NA   ,  NA  , # [3, 3]
+# 			NA   ,  NA  , # [4, 1]
+# 			NA   ,  NA  , # [4, 2]
+# 			NA   ,  NA  , # [4, 3]
+# 			NA   ,  NA  , # [5, 1]
+# 			NA   ,  NA  , # [5, 2]
+# 			NA   ,  NA    # [5, 3]
+#		)
 # p_mu <- c(NA, NA) means
 # log_gamma <- c(NA, NA) means
 # log_rho <- c(NA, NA, NA, NA, NA) means
