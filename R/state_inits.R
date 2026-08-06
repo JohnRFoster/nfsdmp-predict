@@ -64,35 +64,93 @@ state_inits <- function(state_name) {
 	}
 
 	if (state_name == "GEORGIA") {
-		out$beta1 <- c(-1, 0.2, -6, -3.1)
-		# fmt: skip
-		out$beta_p <- c(
-			1, 1.5, -0.5,
-			0.1, 0.5, -0.5,
-			-0.75, -2, 0,
-			0.1, 0.45, -0.3
+		out$beta1 <- tribble(
+			~min , ~max ,
+			  -2 ,    0 ,
+			   0 ,    1 ,
+			  -8 ,   -4 ,
+			  -5 ,   -2
 		)
-		out$p_mu <- c(-2, 1.5)
-		out$log_gamma <- c(-1, -2.75)
-		out$log_rho <- c(-0.75, 1.35, -2, 0.2)
+		out$beta_p <- tribble(
+			~min , ~max ,
+			 0   ,  2   , # [1, 1]
+			 0.5 ,  2.5 , # [1, 2]
+			-1.5 ,  0   , # [1, 3]
+			 0   ,  0.5 , # [2, 1]
+			 0   ,  1   , # [2, 2]
+			-1   ,  0   , # [2, 3]
+			-1.5 ,  0   , # [3, 1]
+			-4   , -1   , # [3, 2]
+			-1   ,  1   , # [3, 3]
+			 0   ,  0.5 , # [4, 1]
+			 0   ,  1   , # [4, 2]
+			-1   ,  0 # [4, 3]
+		)
+
+		out$p_mu <- data.frame(
+			min = c(-3, 0),
+			max = c(-1, 3)
+		)
+		out$log_gamma <- data.frame(
+			min = c(-2, -4),
+			max = c(0, -1)
+		)
+		out$log_rho <- tribble(
+			~min , ~max ,
+			  -2 ,    0 ,
+			   0 ,    2 ,
+			  -3 ,   -1 ,
+			   0 ,    1
+		)
 		out$psi_phi <- c(0.9, 1.0)
 		out$phi_mu <- c(0.63, 0.7)
 		out$log_nu <- c(2.35, 2.4)
 	}
 
 	if (state_name == "OKLAHOMA") {
-		out$beta1 <- c(0.5, -3.75, -0.8, -3.5, -2.9)
-		# fmt: skip
-		out$beta_p <- c(
-			-0.2, 0.5, 1,
-			0.4, -0.25, -1,
-			0.1, 0.5, -0.35,
-			0, -1.5, 0,
-			0.125, 0.3, -0.4
+		out$beta1 <- tribble(
+			~min , ~max ,
+			 0   ,    1 ,
+			-4.5 ,   -3 ,
+			-1.5 ,    0 ,
+			-5   ,   -2 ,
+			-4   ,   -2
 		)
-		out$p_mu <- c(0, 0)
-		out$log_gamma <- c(-1.5, -3.5)
-		out$log_rho <- c(-1.25, 0.37, -1.92, -2, 0.2)
+		out$beta_p <- tribble(
+			~min , ~max ,
+			  -1 , 0    , # [1, 1]
+			   0 , 1    , # [1, 2]
+			  -1 , 1    , # [1, 3]
+			   0 , 1    , # [2, 1]
+			  -1 , 0    , # [2, 2]
+			  -2 , 0    , # [2, 3]
+			   0 , 1    , # [3, 1]
+			   0 , 1    , # [3, 2]
+			  -1 , 0    , # [3, 3]
+			  -1 , 1    , # [4, 1]
+			  -3 , 0    , # [4, 2]
+			  -1 , 0    , # [4, 3]
+			   0 , 0.5  , # [5, 1]
+			   0 , 0.5  , # [5, 2]
+			  -1 , 0 # [5, 3]
+		)
+		out$p_mu <- data.frame(
+			min = c(-0.5, -0.5),
+			max = c(0.5, 0.5)
+		)
+		out$log_gamma <- data.frame(
+			min = c(-3, -4.5),
+			max = c(0, -2)
+		)
+		out$log_rho <- tribble(
+			~min , ~max ,
+			  -2 ,  0   ,
+			   0 ,  1   ,
+			  -3 , -1   ,
+			  -3 , -1   ,
+			   0 ,  0.5
+		)
+
 		out$psi_phi <- c(0.6, 0.8)
 		out$phi_mu <- c(0.55, 0.6)
 		out$log_nu <- c(2.55, 2.65)
