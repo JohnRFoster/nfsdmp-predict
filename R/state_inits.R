@@ -166,7 +166,7 @@ state_inits <- function(state_name) {
 			-1   ,  1   ,
 			 0.5 ,  1.5 ,
 			-5   , -3   ,
-			-2.5 , -2
+			-3   , -2
 		)
 		out$beta_p <- tribble(
 			~min  , ~max  ,
@@ -179,29 +179,29 @@ state_inits <- function(state_name) {
 			-2    , -1    , # [3, 1]
 			-3    , -1    , # [3, 2]
 			 0.25 ,  2    , # [3, 3]
-			 0.5  ,  1    , # [4, 1]
-			-1    ,  1    , # [4, 2]
-			-0.5  ,  0 # [4, 3]
+			-0.5  ,  0    , # [4, 1]
+			 0    ,  0.5  , # [4, 2]
+			-1    , -0.5 # [4, 3]
 		)
 		out$p_mu <- data.frame(
 			min = c(-1, 1),
 			max = c(1, 3)
 		)
 		out$log_gamma <- data.frame(
-			min = c(-2, -4.5),
+			min = c(-2, -3),
 			max = c(-1, -2)
 		)
 		out$log_rho <- tribble(
 			~min , ~max ,
 			-1   ,  1   ,
-			 1.2 ,  2   ,
+			 1.6 ,  2   ,
 			-2.5 , -1   ,
 			 0.1 ,  0.5
 		)
 
 		out$psi_phi <- c(0.8, 1)
 		out$phi_mu <- c(0.66, 0.72)
-		out$log_nu <- c(1.75, 2)
+		out$log_nu <- c(1.85, 2)
 	}
 	out
 }
