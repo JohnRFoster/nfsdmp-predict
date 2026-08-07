@@ -19,6 +19,7 @@ state_inits <- function(state_name) {
 	out$phi_mu <- NULL
 	out$log_nu <- NULL
 
+	# Florida ----
 	if (state_name == "FLORIDA") {
 		out$beta1 <- tribble(
 			~min , ~max ,
@@ -63,6 +64,7 @@ state_inits <- function(state_name) {
 		out$log_nu <- c(2.5, 2.6)
 	}
 
+	# Georgia ----
 	if (state_name == "GEORGIA") {
 		out$beta1 <- tribble(
 			~min , ~max ,
@@ -107,6 +109,7 @@ state_inits <- function(state_name) {
 		out$log_nu <- c(2.35, 2.4)
 	}
 
+	# Oklahoma ----
 	if (state_name == "OKLAHOMA") {
 		out$beta1 <- tribble(
 			~min , ~max ,
@@ -154,6 +157,51 @@ state_inits <- function(state_name) {
 		out$psi_phi <- c(0.6, 0.8)
 		out$phi_mu <- c(0.55, 0.6)
 		out$log_nu <- c(2.55, 2.65)
+	}
+
+	# Ohio ----
+	if (state_name == "OHIO") {
+		out$beta1 <- tribble(
+			~min , ~max ,
+			-1   ,  1   ,
+			 0.5 ,  1.5 ,
+			-5   , -3   ,
+			-2.5 , -2
+		)
+		out$beta_p <- tribble(
+			~min  , ~max  ,
+			-1    , -1    , # [1, 1]
+			 0    ,  2    , # [1, 2]
+			 0    ,  2    , # [1, 3]
+			-0.75 , -0.25 , # [2, 1]
+			 1    ,  2    , # [2, 2]
+			-0.4  ,  0.4  , # [2, 3]
+			-2    , -1    , # [3, 1]
+			-3    , -1    , # [3, 2]
+			 0.25 ,  2    , # [3, 3]
+			 0.5  ,  1    , # [4, 1]
+			-1    ,  1    , # [4, 2]
+			-0.5  ,  0 # [4, 3]
+		)
+		out$p_mu <- data.frame(
+			min = c(-1, 1),
+			max = c(1, 3)
+		)
+		out$log_gamma <- data.frame(
+			min = c(-2, -4.5),
+			max = c(-1, -2)
+		)
+		out$log_rho <- tribble(
+			~min , ~max ,
+			-1   ,  1   ,
+			 1.2 ,  2   ,
+			-2.5 , -1   ,
+			 0.1 ,  0.5
+		)
+
+		out$psi_phi <- c(0.8, 1)
+		out$phi_mu <- c(0.66, 0.72)
+		out$log_nu <- c(1.75, 2)
 	}
 	out
 }
