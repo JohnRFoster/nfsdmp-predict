@@ -23,16 +23,16 @@ state_inits <- function(state_name) {
 	if (state_name == "FLORIDA") {
 		out$beta1 <- tribble(
 			~min , ~max ,
-			  -1 ,    1 ,
-			   1 ,    3 ,
-			  -8 ,   -4 ,
-			  -3 ,   -2
+			-0.2 ,  0.2 ,
+			 1   ,  3   ,
+			-5   , -3   ,
+			-3   , -2
 		)
 		out$beta_p <- tribble(
 			~min , ~max ,
 			-1   ,  1   , # [1, 1]
 			 1   ,  3   , # [1, 2]
-			-3   , -0.5 , # [1, 3]
+			-2   , -0.5 , # [1, 3]
 			-1   ,  1   , # [2, 1]
 			 1   ,  3   , # [2, 2]
 			-1   ,  1   , # [2, 3]
@@ -59,8 +59,8 @@ state_inits <- function(state_name) {
 			-3   ,   -1 ,
 			-0.5 ,    0
 		)
-		out$psi_phi <- c(0.58, 0.63)
-		out$phi_mu <- c(0.58, 0.63)
+		out$psi_phi <- c(0.5, 0.55)
+		out$phi_mu <- c(0.62, 0.68)
 		out$log_nu <- c(2.5, 2.6)
 	}
 
