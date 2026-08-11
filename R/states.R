@@ -55,7 +55,7 @@ jobs <- sort(unique(data_complete$st_name))
 
 # get the STATENAME from bash script
 st <- Sys.getenv("STATENAME")
-st <- if_else(st == "", "FLORIDA", st) # for testing
+st <- if_else(st == "", "GEORGIA", st) # for testing
 message("\n")
 message("STATENAME: ", st)
 
@@ -123,7 +123,7 @@ mcmc_parallel(
   monitors_add = "N",
   custom_samplers = NULL,
   export = "calc_log_area",
-  buffer = 500,
+  buffer = 750,
   beta1 = init_list$beta1,
   beta_p = init_list$beta_p,
   p_mu = init_list$p_mu,
