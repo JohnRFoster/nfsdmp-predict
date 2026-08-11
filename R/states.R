@@ -110,6 +110,15 @@ dest <- file.path(path, "mcmc")
 
 init_list <- state_inits(st)
 
+# only monitor the observed primary periods for Texas
+if (st == "TEXAS") {
+  nH_p <- constants$nH_p
+  monitors_add <- c("N", paste0("N[", nH_p, "]"))
+} else {
+  # otherwise, monitor all primary periods
+  monitors_add <- "N"
+}
+
 # runs the mcmc and saves chunks of samples
 # will run until conveged
 mcmc_parallel(
@@ -120,7 +129,7 @@ mcmc_parallel(
   params_check = params_check,
   n_iters = n_iter,
   dest = dest,
-  monitors_add = "N",
+  monitors_add = monitors_add,
   custom_samplers = NULL,
   export = "calc_log_area",
   buffer = 750,
