@@ -55,7 +55,7 @@ jobs <- sort(unique(data_complete$st_name))
 
 # get the STATENAME from bash script
 st <- Sys.getenv("STATENAME")
-st <- if_else(st == "", "GEORGIA", st) # for testing
+st <- if_else(st == "", "LOUISIANA", st) # for testing
 message("\n")
 message("STATENAME: ", st)
 
@@ -119,6 +119,17 @@ if (st == "TEXAS") {
   monitors_add <- "N"
 }
 
+control_rw <- list(
+  adaptInterval = 100,
+  adaptFactorExponent = 0.6
+)
+
+custom_samplers <- tribble(
+  ~node     , ~type   , ~control   ,
+  "phi_mu"  , "RW"    , control_rw ,
+  "psi_phi" , "slice" , NULL
+)
+
 # runs the mcmc and saves chunks of samples
 # will run until conveged
 mcmc_parallel(
@@ -130,7 +141,7 @@ mcmc_parallel(
   n_iters = n_iter,
   dest = dest,
   monitors_add = monitors_add,
-  custom_samplers = NULL,
+  custom_samplers = custom_samplers,
   export = "calc_log_area",
   buffer = 750,
   beta1 = init_list$beta1,
