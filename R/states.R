@@ -124,16 +124,14 @@ control_rw <- list(
   adaptFactorExponent = 0.6
 )
 
-custom_samplers <- tribble(
-  ~node                  , ~type                     , ~control   ,
-  c("phi_mu", "psi_phi") , c("RW_block", "RW_block") , control_rw ,
+phi_psi <- list(
+  node = c("phi_mu", "psi_phi"),
+  type = "RW_block",
+  control = control_rw
 )
 
-custom_samples <- list()
-custom_samplers[[1]]$node <- c("phi_mu", "psi_phi")
-custom_samplers[[1]]$type <- "RW_block"
-custom_samplers[[1]]$control <- control_rw
-
+custom_samplers <- list()
+custom_samplers[[1]] <- phi_psi
 
 # runs the mcmc and saves chunks of samples
 # will run until conveged
