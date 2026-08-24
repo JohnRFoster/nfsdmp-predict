@@ -126,8 +126,8 @@ control_rw <- list(
 
 phi_psi <- list(
   node = c("phi_mu", "psi_phi"),
-  type = "RW_block",
-  control = control_rw
+  type = "barker",
+  control = NULL
 )
 
 custom_samplers <- list()
