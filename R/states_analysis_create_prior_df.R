@@ -1,5 +1,7 @@
-library(dplyr)
 library(stringr)
+library(dplyr)
+library(readr)
+library(tidyr)
 
 method_pattern <- "(?<=\\[)\\d"
 position_pattern <- "(?<=\\, )\\d"
@@ -169,7 +171,7 @@ method_lookup_table <- tibble(
 		"Fixed Wing",
 		"Helicopter",
 		"Snare",
-		"Trap"
+		"Traps"
 	)
 )
 
