@@ -125,7 +125,7 @@ control_rw <- list(
 )
 
 phi_psi <- list(
-  node = c("phi_mu", "psi_phi"),
+  node = c("phi_mu", "psi_phi", "log_nu"),
   type = "barker",
   control = NULL
 )
