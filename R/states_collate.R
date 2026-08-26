@@ -99,7 +99,6 @@ for (i in seq_along(states)) {
 	pb$tick()
 }
 
-close(pb)
 
 message("write_dir: ", write_dir)
 if (!dir.exists(write_dir)) {
