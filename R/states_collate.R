@@ -47,7 +47,11 @@ for (i in seq_along(states)) {
 	df_params <- read_rds(fname)
 
 	quants <- df_params |>
-		mutate(log_zeta = log(28) + log_nu - log(365)) |>
+		mutate(
+			log_zeta = log(28) + log_nu - log(365),
+			lambda = phi_mu + exp(log_zeta) / 2,
+			lambda_annual = lambda^(365 / 28),
+		) |>
 		pivot_longer(cols = everything(), names_to = "node") |>
 		mutate(
 			value = case_when(
@@ -60,7 +64,6 @@ for (i in seq_along(states)) {
 				grepl("log", node) ~ str_remove(node, "log_"),
 				.default = node
 			),
-			lambda = phi_mu + zeta / 2
 		) |>
 		group_by(node) |>
 		reframe(
