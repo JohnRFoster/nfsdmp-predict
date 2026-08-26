@@ -33,7 +33,7 @@ pb <- progress::progress_bar$new(
 	width = 60
 )
 for (i in seq_along(states)) {
-	state <- stringr::str_to_title(states[i])
+	state <- str_to_title(states[i])
 	state_dir <- file.path(out_dir, states[i])
 	method_lookup_table <- read_rds(file.path(
 		state_dir,
@@ -52,6 +52,7 @@ for (i in seq_along(states)) {
 		mutate(
 			value = case_when(
 				grepl("beta1", node) ~ boot::inv.logit(value),
+				grepl("p_mu", node) ~ boot::inv.logit(value),
 				grepl("log", node) ~ exp(value),
 				.default = value
 			),
@@ -85,9 +86,24 @@ for (i in seq_along(states)) {
 				.default = NA
 			)
 		)
-	quant_names <- left_join(quants, method_lookup_table, by = "method_idx") |>
-		select(-m_vec, -ts_id) |>
-		left_join(land_lookup, by = "position")
+
+	ts_specific_params <- c("gamma[1]", "gamma[2]", "p_mu[1]", "p_mu[2]")
+
+	quants_shooting <- quants |>
+		filter(!node %in% ts_specific_params) |>
+		left_join(method_lookup_table, by = "method_idx") |>
+		left_join(land_lookup, by = "position") |>
+		select(-m_vec, -ts_id, -method_idx)
+
+	quants_ts <- quants |>
+		filter(node %in% ts_specific_params) |>
+		rename(ts_id = method_idx) |>
+		left_join(method_lookup_table, by = "ts_id") |>
+		left_join(land_lookup, by = "position") |>
+		select(-m_vec, -method_idx, -ts_id)
+
+	quant_names <- bind_rows(quants_shooting, quants_ts)
+
 	all_params <- bind_rows(all_params, quant_names)
 
 	# Density summaries ----
@@ -99,6 +115,16 @@ for (i in seq_along(states)) {
 	pb$tick()
 }
 
+# fix method names
+all_params <- all_params |>
+	mutate(
+		method_names = stringr::str_to_title(method_names),
+		method_names = case_when(
+			method_names == "Firearms" ~ "Ground-shooting",
+			st_name == "Wisconsin" ~ "Traps", # WI only uses traps
+			.default = method_names
+		)
+	)
 
 message("write_dir: ", write_dir)
 if (!dir.exists(write_dir)) {
