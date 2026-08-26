@@ -26,7 +26,12 @@ land_lookup <- tibble(
 all_params <- tibble()
 all_density <- tibble()
 
-i <- 1
+pb <- progress::progress_bar$new(
+	format = "  [:bar] :percent eta: :eta",
+	total = length(states),
+	clear = FALSE,
+	width = 60
+)
 for (i in seq_along(states)) {
 	state <- stringr::str_to_title(states[i])
 	state_dir <- file.path(out_dir, states[i])
@@ -91,11 +96,18 @@ for (i in seq_along(states)) {
 		select(-node)
 
 	all_density <- bind_rows(all_density, df_density)
+	pb$tick()
 }
 
+close(pb)
+
+message("write_dir: ", write_dir)
 if (!dir.exists(write_dir)) {
 	dir.create(write_dir, recursive = TRUE)
 }
 
+message("writing all_params.rds and all_density.rds to: ", write_dir)
 write_rds(all_params, file.path(write_dir, "all_params.rds"))
 write_rds(all_density, file.path(write_dir, "all_density.rds"))
+
+message("done!")
