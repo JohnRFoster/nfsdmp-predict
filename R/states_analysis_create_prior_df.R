@@ -18,27 +18,32 @@ priors <- tibble(
 		n,
 		hyperparams$beta1_mu[1],
 		pr2sd(hyperparams$beta1_tau[1])
-	),
+	) |>
+		boot::inv.logit(),
 	"beta1[2]" = rnorm(
 		n,
 		hyperparams$beta1_mu[2],
 		pr2sd(hyperparams$beta1_tau[2])
-	),
+	) |>
+		boot::inv.logit(),
 	"beta1[3]" = rnorm(
 		n,
 		hyperparams$beta1_mu[3],
 		pr2sd(hyperparams$beta1_tau[3])
-	),
+	) |>
+		boot::inv.logit(),
 	"beta1[4]" = rnorm(
 		n,
 		hyperparams$beta1_mu[4],
 		pr2sd(hyperparams$beta1_tau[4])
-	),
+	) |>
+		boot::inv.logit(),
 	"beta1[5]" = rnorm(
 		n,
 		hyperparams$beta1_mu[5],
 		pr2sd(hyperparams$beta1_tau[5])
-	),
+	) |>
+		boot::inv.logit(),
 	"beta_p[1, 1]" = rnorm(
 		n,
 		hyperparams$beta_p_mu[1],
@@ -142,22 +147,22 @@ priors <- tibble(
 		hyperparams$log_rho_mu[5],
 		pr2sd(hyperparams$log_rho_tau[5])
 	),
-	"gamma[1]" = rnorm(
+	"gamma[4]" = rnorm(
 		n,
 		hyperparams$log_gamma_mu[1],
 		pr2sd(hyperparams$log_gamma_tau[1])
 	),
-	"gamma[2]" = rnorm(
+	"gamma[5]" = rnorm(
 		n,
 		hyperparams$log_gamma_mu[2],
 		pr2sd(hyperparams$log_gamma_tau[2])
 	),
-	"p_mu[1]" = exp(rnorm(
+	"p_mu[4]" = boot::inv.logit(rnorm(
 		n,
 		hyperparams$p_mu_mu[1],
 		pr2sd(hyperparams$p_mu_tau[1])
 	)),
-	"p_mu[2]" = exp(rnorm(
+	"p_mu[5]" = boot::inv.logit(rnorm(
 		n,
 		hyperparams$p_mu_mu[2],
 		pr2sd(hyperparams$p_mu_tau[2])
