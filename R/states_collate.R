@@ -59,7 +59,8 @@ for (i in seq_along(states)) {
 			node = case_when(
 				grepl("log", node) ~ str_remove(node, "log_"),
 				.default = node
-			)
+			),
+			lambda = phi_mu + zeta / 2
 		) |>
 		group_by(node) |>
 		reframe(
