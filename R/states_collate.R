@@ -26,12 +26,6 @@ land_lookup <- tibble(
 all_params <- tibble()
 all_density <- tibble()
 
-pb <- progress::progress_bar$new(
-	format = "  [:bar] :percent eta: :eta",
-	total = length(states),
-	clear = FALSE,
-	width = 60
-)
 for (i in seq_along(states)) {
 	state <- str_to_title(states[i])
 	state_dir <- file.path(out_dir, states[i])
@@ -113,10 +107,10 @@ for (i in seq_along(states)) {
 	# Density summaries ----
 	fname <- file.path(state_dir, analysis_dir, density_fname)
 	df_density <- read_rds(fname) |>
-		select(-node)
+		select(-node) |>
+		mutate(st_name = state)
 
 	all_density <- bind_rows(all_density, df_density)
-	pb$tick()
 }
 
 # fix method names
