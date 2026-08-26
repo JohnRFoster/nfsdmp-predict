@@ -122,6 +122,10 @@ all_params <- all_params |>
 		method_names = case_when(
 			method_names == "Firearms" ~ "Ground-shooting",
 			st_name == "Wisconsin" ~ "Traps", # WI only uses traps
+			st_name == "New York" & node == "gamma" ~ "Traps", # NY does not use snares
+			st_name == "New York" & node == "p_mu" ~ "Traps", # NY does not use snares
+			st_name == "Pennsylvania" & node == "gamma" ~ "Traps", # PA does not use snares
+			st_name == "Pennsylvania" & node == "p_mu" ~ "Traps", # PA does not use snares
 			.default = method_names
 		)
 	)
