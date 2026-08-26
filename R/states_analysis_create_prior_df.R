@@ -122,41 +122,41 @@ priors <- tibble(
 	"nu" = exp(rnorm(n, hyperparams$log_nu_mu, pr2sd(hyperparams$log_nu_tau))),
 	"phi_mu" = rbeta(n, hyperparams$phi_mu_a, hyperparams$phi_mu_b),
 	"psi_phi" = rgamma(n, hyperparams$psi_shape, hyperparams$psi_rate),
-	"rho[1]" = rnorm(
+	"rho[1]" = exp(rnorm(
 		n,
 		hyperparams$log_rho_mu[1],
 		pr2sd(hyperparams$log_rho_tau[1])
-	),
-	"rho[2]" = rnorm(
+	)),
+	"rho[2]" = exp(rnorm(
 		n,
 		hyperparams$log_rho_mu[2],
 		pr2sd(hyperparams$log_rho_tau[2])
-	),
-	"rho[3]" = rnorm(
+	)),
+	"rho[3]" = exp(rnorm(
 		n,
 		hyperparams$log_rho_mu[3],
 		pr2sd(hyperparams$log_rho_tau[3])
-	),
-	"rho[4]" = rnorm(
+	)),
+	"rho[4]" = exp(rnorm(
 		n,
 		hyperparams$log_rho_mu[4],
 		pr2sd(hyperparams$log_rho_tau[4])
-	),
-	"rho[5]" = rnorm(
+	)),
+	"rho[5]" = exp(rnorm(
 		n,
 		hyperparams$log_rho_mu[5],
 		pr2sd(hyperparams$log_rho_tau[5])
-	),
-	"gamma[4]" = rnorm(
+	)),
+	"gamma[4]" = exp(rnorm(
 		n,
 		hyperparams$log_gamma_mu[1],
 		pr2sd(hyperparams$log_gamma_tau[1])
-	),
-	"gamma[5]" = rnorm(
+	)),
+	"gamma[5]" = exp(rnorm(
 		n,
 		hyperparams$log_gamma_mu[2],
 		pr2sd(hyperparams$log_gamma_tau[2])
-	),
+	)),
 	"p_mu[4]" = boot::inv.logit(rnorm(
 		n,
 		hyperparams$p_mu_mu[1],
@@ -167,7 +167,8 @@ priors <- tibble(
 		hyperparams$p_mu_mu[2],
 		pr2sd(hyperparams$p_mu_tau[2])
 	))
-)
+) |>
+	mutate(zeta = 28 * nu / 365, lambda = phi_mu + zeta / 2)
 
 method_lookup_table <- tibble(
 	method_idx = 1:5,
