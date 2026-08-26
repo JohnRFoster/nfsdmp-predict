@@ -168,7 +168,11 @@ priors <- tibble(
 		pr2sd(hyperparams$p_mu_tau[2])
 	))
 ) |>
-	mutate(zeta = 28 * nu / 365, lambda = phi_mu + zeta / 2)
+	mutate(
+		zeta = 28 * nu / 365,
+		lambda = phi_mu + zeta / 2,
+		lambda_annual = lambda^(365 / 28)
+	)
 
 method_lookup_table <- tibble(
 	method_idx = 1:5,
