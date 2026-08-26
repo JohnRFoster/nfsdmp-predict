@@ -162,6 +162,23 @@ priors <- tibble(
 	))
 )
 
+method_lookup_table <- tibble(
+	method_idx = 1:5,
+	method_names = c(
+		"Ground-shooting",
+		"Fixed Wing",
+		"Helicopter",
+		"Snare",
+		"Trap"
+	)
+)
+
+land_lookup <- tibble(
+	position = 1:4,
+	land_type = c("Intercept", "Road density", "Ruggedness", "Canopy cover")
+)
+
+
 priors_df <- priors |>
 	pivot_longer(cols = everything(), names_to = "node") |>
 	group_by(node) |>
@@ -182,6 +199,8 @@ priors_df <- priors |>
 				1,
 			.default = NA
 		)
-	)
+	) |>
+	left_join(method_lookup_table, by = "method_idx") |>
+	left_join(land_lookup, by = "position")
 
 write_rds(priors_df, file.path("data", "priors_df.rds"))
