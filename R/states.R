@@ -137,8 +137,8 @@ for (i in seq_len(nm)) {
   nodes <- paste0("beta_p[", i, ", ", 1:3, "]")
   custom_samplers[[i + 1]] <- list(
     node = nodes,
-    type = "RW_block",
-    control = control_rw
+    type = "barker",
+    control = NULL
   )
 }
 
