@@ -119,19 +119,29 @@ if (st == "TEXAS") {
   monitors_add <- "N"
 }
 
-control_rw <- list(
-  adaptInterval = 100,
-  adaptFactorExponent = 0.6
-)
-
 phi_psi <- list(
-  node = c("phi_mu", "psi_phi", "log_nu"),
+  node = c("phi_mu", "psi_phi"),
   type = "barker",
   control = NULL
 )
 
 custom_samplers <- list()
 custom_samplers[[1]] <- phi_psi
+
+control_rw <- list(
+  adaptInterval = 100,
+  adaptFactorExponent = 0.6
+)
+
+for (i in seq_len(nm)) {
+  nodes <- paste0("beta_p[", i, ", ", 1:3, "]")
+  custom_samplers[[i + 1]] <- list(
+    node = nodes,
+    type = "RW_block",
+    control = control_rw
+  )
+}
+
 
 # runs the mcmc and saves chunks of samples
 # will run until conveged
