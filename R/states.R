@@ -125,21 +125,25 @@ phi_psi <- list(
   control = NULL
 )
 
-custom_samplers <- list()
-custom_samplers[[1]] <- phi_psi
-
-control_rw <- list(
-  adaptInterval = 100,
-  adaptFactorExponent = 0.6
+log_nu <- list(
+  node = "log_nu",
+  type = "ess",
+  control = NULL
 )
 
+custom_samplers <- list()
+custom_samplers[[1]] <- phi_psi
+custom_samplers[[2]] <- log_nu
+
+k <- length(custom_samplers)
 for (i in seq_len(nm)) {
-  nodes <- paste0("beta_p[", i, ", ", 1:3, "]")
-  custom_samplers[[i + 1]] <- list(
-    node = nodes,
-    type = "barker",
-    control = NULL
-  )
+  for (j in 1:3) {
+    custom_samplers[[k + (i - 1) * 3 + j]] <- list(
+      node = paste0("beta_p[", i, ", ", j, "]"),
+      type = "ess",
+      control = NULL
+    )
+  }
 }
 
 
