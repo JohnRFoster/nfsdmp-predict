@@ -127,7 +127,7 @@ phi_psi <- list(
 
 log_nu <- list(
   node = "log_nu",
-  type = "ess",
+  type = "RW",
   control = NULL
 )
 
@@ -140,7 +140,7 @@ for (i in seq_len(nm)) {
   for (j in 1:3) {
     custom_samplers[[k + (i - 1) * 3 + j]] <- list(
       node = paste0("beta_p[", i, ", ", j, "]"),
-      type = "ess",
+      type = "slice",
       control = NULL
     )
   }
