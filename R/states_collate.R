@@ -114,7 +114,7 @@ for (i in seq_along(states)) {
 
 	all_density <- bind_rows(all_density, df_density)
 
-	draws <- floor(seq(1, nrow(df_params), length.out = 1000))
+	draws <- floor(seq(1, nrow(df_params), length.out = 500))
 
 	all_params_samples <- bind_rows(all_params_samples, df_params[draws, ])
 
