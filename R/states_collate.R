@@ -24,6 +24,8 @@ land_lookup <- tibble(
 )
 
 all_params <- tibble()
+all_params_samples <- tibble()
+all_density_samples <- tibble()
 all_density <- tibble()
 
 for (i in seq_along(states)) {
@@ -38,15 +40,16 @@ for (i in seq_along(states)) {
 
 	# parameters ----
 	fname <- file.path(state_dir, analysis_dir, param_fname)
-	df_params <- read_rds(fname)
-
-	quants <- df_params |>
+	df_params <- read_rds(fname) |>
 		mutate(
+			st_name = state,
 			log_zeta = log(28) + log_nu - log(365),
 			lambda = phi_mu + exp(log_zeta) / 2,
 			lambda_annual = lambda^(365 / 28),
-		) |>
-		pivot_longer(cols = everything(), names_to = "node") |>
+		)
+
+	quants <- df_params |>
+		pivot_longer(cols = -st_name, names_to = "node") |>
 		mutate(
 			value = case_when(
 				grepl("beta1", node) ~ boot::inv.logit(value),
@@ -59,14 +62,13 @@ for (i in seq_along(states)) {
 				.default = node
 			),
 		) |>
-		group_by(node) |>
+		group_by(node, st_name) |>
 		reframe(
 			median = median(value),
 			quantile_0.05 = quantile(value, 0.05),
 			quantile_0.95 = quantile(value, 0.95)
 		) |>
 		mutate(
-			st_name = state,
 			method_idx = case_when(
 				grepl("\\[", node) ~ as.numeric(str_extract(
 					node,
@@ -111,6 +113,22 @@ for (i in seq_along(states)) {
 		mutate(st_name = state)
 
 	all_density <- bind_rows(all_density, df_density)
+
+	draws <- floor(seq(1, nrow(df_params), length.out = 1000))
+
+	all_params_samples <- bind_rows(all_params_samples, df_params[draws, ])
+
+	density_samples <- read_rds(file.path(
+		state_dir,
+		analysis_dir,
+		"stateSamples.rds"
+	)) |>
+		mutate(st_name = state)
+
+	all_density_samples <- bind_rows(
+		all_density_samples,
+		density_samples[draws, ]
+	)
 }
 
 # fix method names
@@ -135,6 +153,8 @@ if (!dir.exists(write_dir)) {
 
 message("writing all_params.rds and all_density.rds to: ", write_dir)
 write_rds(all_params, file.path(write_dir, "all_params.rds"))
+write_rds(all_params_samples, file.path(write_dir, "all_params_samples.rds"))
 write_rds(all_density, file.path(write_dir, "all_density.rds"))
+write_rds(all_density_samples, file.path(write_dir, "all_density_samples.rds"))
 
 message("done!")
