@@ -5,7 +5,7 @@ library(stringr)
 library(ggplot2)
 
 # have not converged
-skip_states <- c("FLORIDA", "TEXAS")
+skip_states <- c("TEXAS")
 write_dir <- "analysis/states/states-2026-03-25"
 out_dir <- "out/states/states-2026-03-25"
 states <- list.files(out_dir)
