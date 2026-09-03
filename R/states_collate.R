@@ -155,6 +155,9 @@ message("writing all_params.rds and all_density.rds to: ", write_dir)
 write_rds(all_params, file.path(write_dir, "all_params.rds"))
 write_rds(all_params_samples, file.path(write_dir, "all_params_samples.rds"))
 write_rds(all_density, file.path(write_dir, "all_density.rds"))
-write_rds(all_density_samples, file.path(write_dir, "all_density_samples.rds"))
+write_rds(
+	all_density_samples,
+	file.path(write_dir, "all_abundance_samples.rds")
+)
 
 message("done!")
