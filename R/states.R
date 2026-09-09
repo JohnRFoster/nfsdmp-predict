@@ -50,10 +50,10 @@ data_mis <- get_data(df, interval, create_new)
 data_complete <- data_mis |>
   filter(!is.na(c_road_den), !is.na(c_rugged), !is.na(c_canopy))
 
-write_rds(
-  data_complete,
-  file.path(data_store, "stateFit", project_pull, "model_data.rds")
-)
+# write_rds(
+#   data_complete,
+#   file.path(data_store, "stateFit", project_pull, "model_data.rds")
+# )
 
 jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
