@@ -188,8 +188,8 @@ state_inits <- function(state_name) {
 			-0.4   , -0.3 # [5, 3]
 		)
 		out$p_mu <- data.frame(
-			min = c(-1.21, -0.37),
-			max = c(1.19, 0.506)
+			min = c(-2, -4),
+			max = c(-1, -3.5)
 		)
 		out$log_gamma <- data.frame(
 			min = c(-2, -4.25),
@@ -201,11 +201,11 @@ state_inits <- function(state_name) {
 			 0.367 ,  0.405 ,
 			 0.9   ,  1     ,
 			-2.49  , -1.26  ,
-			 0.086 ,  0.338
+			 0.1   ,  0.3
 		)
 
-		out$psi_phi <- c(0.654, 0.714)
-		out$phi_mu <- c(0.59, 0.62)
+		out$psi_phi <- c(0.65, 0.7)
+		out$phi_mu <- c(0.61, 0.625)
 		out$log_nu <- c(2.49, 2.54)
 	}
 
