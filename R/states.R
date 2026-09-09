@@ -50,12 +50,17 @@ data_mis <- get_data(df, interval, create_new)
 data_complete <- data_mis |>
   filter(!is.na(c_road_den), !is.na(c_rugged), !is.na(c_canopy))
 
+write_rds(
+  data_complete,
+  file.path(data_store, "stateFit", project_pull, "model_data.rds")
+)
+
 jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
 
 # get the STATENAME from bash script
 st <- Sys.getenv("STATENAME")
-st <- if_else(st == "", "LOUISIANA", st) # for testing
+st <- if_else(st == "", "FLORIDA", st) # for testing
 message("\n")
 message("STATENAME: ", st)
 
@@ -140,7 +145,7 @@ for (i in seq_len(nm)) {
   for (j in 1:3) {
     custom_samplers[[k + (i - 1) * 3 + j]] <- list(
       node = paste0("beta_p[", i, ", ", j, "]"),
-      type = "slice",
+      type = "ess",
       control = NULL
     )
   }
