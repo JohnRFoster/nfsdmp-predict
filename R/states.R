@@ -47,8 +47,15 @@ df <- readr::read_csv(fname, show_col_types = FALSE)
 
 data_mis <- get_data(df, interval, create_new)
 
+original_ids <- read_rds("data/original_ids.rds")
+
 data_complete <- data_mis |>
-  filter(!is.na(c_road_den), !is.na(c_rugged), !is.na(c_canopy))
+  filter(
+    !is.na(c_road_den),
+    !is.na(c_rugged),
+    !is.na(c_canopy),
+    !propertyID %in% original_ids
+  )
 
 # write_rds(
 #   data_complete,
