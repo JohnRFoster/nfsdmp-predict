@@ -139,7 +139,7 @@ phi_psi <- list(
 
 log_nu <- list(
   node = "log_nu",
-  type = "RW",
+  type = "slice",
   control = NULL
 )
 
@@ -147,14 +147,14 @@ custom_samplers <- list()
 custom_samplers[[1]] <- phi_psi
 custom_samplers[[2]] <- log_nu
 
-k <- length(custom_samplers)
-for (i in seq_len(nm)) {
-  custom_samplers[[k + i]] <- list(
-    node = paste0("beta_p[", i, ", ", 1:3, "]"),
-    type = "RW_block",
-    control = NULL
-  )
-}
+# k <- length(custom_samplers)
+# for (i in seq_len(nm)) {
+#   custom_samplers[[k + i]] <- list(
+#     node = paste0("beta_p[", i, ", ", 1:3, "]"),
+#     type = "RW_block",
+#     control = NULL
+#   )
+# }
 
 # runs the mcmc and saves chunks of samples
 # will run until conveged
