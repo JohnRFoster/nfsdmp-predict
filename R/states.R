@@ -131,21 +131,21 @@ if (st == "TEXAS") {
   monitors_add <- "N"
 }
 
-phi_psi <- list(
-  node = c("phi_mu", "psi_phi"),
-  type = "barker",
+phi <- list(
+  node = "phi_mu",
+  type = "slice",
   control = NULL
 )
 
-log_nu <- list(
-  node = "log_nu",
+psi <- list(
+  node = "psi_phi",
   type = "slice",
   control = NULL
 )
 
 custom_samplers <- list()
-custom_samplers[[1]] <- phi_psi
-custom_samplers[[2]] <- log_nu
+custom_samplers[[1]] <- phi
+custom_samplers[[2]] <- psi
 
 # k <- length(custom_samplers)
 # for (i in seq_len(nm)) {
