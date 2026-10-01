@@ -147,14 +147,14 @@ custom_samplers <- list()
 custom_samplers[[1]] <- phi
 custom_samplers[[2]] <- psi
 
-# k <- length(custom_samplers)
-# for (i in seq_len(nm)) {
-#   custom_samplers[[k + i]] <- list(
-#     node = paste0("beta_p[", i, ", ", 1:3, "]"),
-#     type = "RW_block",
-#     control = NULL
-#   )
-# }
+k <- length(custom_samplers)
+for (i in seq_len(nm)) {
+  custom_samplers[[k + i]] <- list(
+    node = paste0("beta_p[", i, ", ", 1:3, "]"),
+    type = "RW_block",
+    control = list(adaptInterval = 200, adaptFactorExponent = 0.5)
+  )
+}
 
 # runs the mcmc and saves chunks of samples
 # will run until conveged
@@ -169,7 +169,7 @@ mcmc_parallel(
   monitors_add = monitors_add,
   custom_samplers = custom_samplers,
   export = "calc_log_area",
-  buffer = 750,
+  buffer = 500,
   beta1 = init_list$beta1,
   beta_p = init_list$beta_p,
   p_mu = init_list$p_mu,
