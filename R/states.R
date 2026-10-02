@@ -143,17 +143,21 @@ psi <- list(
   control = NULL
 )
 
-custom_samplers <- list()
-custom_samplers[[1]] <- phi
-custom_samplers[[2]] <- psi
+custom_samplers <- list(phi, psi)
 
-k <- length(custom_samplers)
-for (i in seq_len(nm)) {
-  custom_samplers[[k + i]] <- list(
-    node = paste0("beta_p[", i, ", ", 1:3, "]"),
-    type = "RW_block",
-    control = list(adaptInterval = 200, adaptFactorExponent = 0.5)
-  )
+if (model_flags$use_beta_p) {
+  for (i in seq_len(nm)) {
+    for (j in seq_len(3)) {
+      custom_samplers[[length(custom_samplers) + 1L]] <- list(
+        node = sprintf("beta_p[%d, %d]", i, j),
+        type = "slice",
+        control = list(
+          width = 0.25,
+          maxSteps = 100
+        )
+      )
+    }
+  }
 }
 
 # runs the mcmc and saves chunks of samples
