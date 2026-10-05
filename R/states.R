@@ -139,7 +139,7 @@ phi <- list(
 
 psi <- list(
   node = "psi_phi",
-  type = "slice",
+  type = "RW",
   control = NULL
 )
 
