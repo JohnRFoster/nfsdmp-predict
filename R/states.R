@@ -133,14 +133,22 @@ if (st == "TEXAS") {
 
 phi <- list(
   node = "phi_mu",
-  type = "slice",
-  control = NULL
+  type = "RW",
+  control = list(
+    adaptInterval = 100,
+    adaptFactorExponent = 0.6,
+    scale = 0.01
+  )
 )
 
 psi <- list(
   node = "psi_phi",
   type = "RW",
-  control = NULL
+  control = list(
+    adaptInterval = 100,
+    adaptFactorExponent = 0.6,
+    scale = 0.02
+  )
 )
 
 custom_samplers <- list(phi, psi)
