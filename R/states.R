@@ -131,7 +131,7 @@ if (st == "TEXAS") {
   monitors_add <- "N"
 }
 
-phi <- list(
+phi_mu_sampler <- list(
   node = "phi_mu",
   type = "RW",
   control = list(
@@ -139,11 +139,11 @@ phi <- list(
     adaptive = TRUE,
     adaptInterval = 200,
     adaptFactorExponent = 0.6,
-    scale = 0.005
+    scale = 0.002
   )
 )
 
-psi <- list(
+psi_phi_sampler <- list(
   node = "psi_phi",
   type = "RW",
   control = list(
@@ -151,11 +151,56 @@ psi <- list(
     adaptive = TRUE,
     adaptInterval = 200,
     adaptFactorExponent = 0.6,
-    scale = 0.05
+    scale = 0.02
   )
 )
 
-custom_samplers <- list(phi, psi)
+# constants$nH can be a vector for a single-property model.
+nH_matrix <- constants$nH
+if (is.null(dim(nH_matrix))) {
+  nH_matrix <- matrix(nH_matrix, nrow = 1L)
+}
+
+# phi[nH[i, j - 1]] exists for transitions j = 2, ..., n_time_prop[i].
+phi_indices <- unlist(
+  lapply(seq_len(constants$n_property), function(i) {
+    n_time <- constants$n_time_prop[i]
+
+    if (is.na(n_time) || n_time < 2L) {
+      return(integer())
+    }
+
+    nH_matrix[i, seq_len(n_time - 1L)]
+  }),
+  use.names = FALSE
+)
+
+phi_indices <- sort(unique(as.integer(phi_indices[!is.na(phi_indices)])))
+
+message(
+  "Adding individual RW samplers for ",
+  length(phi_indices),
+  " latent phi nodes"
+)
+
+latent_phi_samplers <- lapply(phi_indices, function(idx) {
+  list(
+    node = sprintf("phi[%d]", idx),
+    type = "RW",
+    control = list(
+      reflective = TRUE,
+      adaptive = TRUE,
+      adaptInterval = 200,
+      adaptFactorExponent = 0.6,
+      scale = 0.01
+    )
+  )
+})
+
+custom_samplers <- c(
+  list(phi_mu_sampler, psi_phi_sampler),
+  latent_phi_samplers
+)
 
 if (model_flags$use_beta_p) {
   for (i in seq_len(nm)) {
