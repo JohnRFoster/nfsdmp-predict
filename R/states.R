@@ -197,27 +197,45 @@ latent_phi_samplers <- lapply(phi_indices, function(idx) {
   )
 })
 
-custom_samplers <- c(
-  list(phi_mu_sampler, psi_phi_sampler),
-  latent_phi_samplers
-)
+beta_p_samplers <- list()
 
 if (model_flags$use_beta_p) {
-  for (i in seq_len(nm)) {
-    custom_samplers[[length(custom_samplers) + 1L]] <- list(
-      node = sprintf("beta_p[%d, 1:3]", i),
-      type = "AF_slice",
+  beta_p_prior_sd <- sqrt(1 / constants$beta_p_tau)
+
+  # Conservative initial proposal scales relative to the prior SD.
+  beta_p_scales <- pmax(
+    0.01,
+    pmin(0.10, 0.10 * beta_p_prior_sd)
+  )
+
+  beta_p_samplers <- lapply(seq_len(constants$n_betaP), function(k) {
+    row <- constants$beta_p_row[k]
+    col <- constants$beta_p_col[k]
+
+    list(
+      node = sprintf("beta_p[%d, %d]", row, col),
+      type = "RW",
       control = list(
-        sliceWidths = rep(0.1, 3),
-        sliceMaxSteps = 50,
-        sliceAdaptFactorInterval = 200,
-        sliceAdaptFactorMaxIter = 10000,
-        sliceAdaptWidthMaxIter = 1000,
-        maxContractions = 500
+        adaptive = TRUE,
+        adaptInterval = 200,
+        adaptFactorExponent = 0.6,
+        scale = beta_p_scales[k]
       )
     )
-  }
+  })
+
+  message(
+    "Adding individual RW samplers for ",
+    length(beta_p_samplers),
+    " beta_p nodes"
+  )
 }
+
+custom_samplers <- c(
+  list(phi_mu_sampler, psi_phi_sampler),
+  latent_phi_samplers,
+  beta_p_samplers
+)
 
 # runs the mcmc and saves chunks of samples
 # will run until conveged
