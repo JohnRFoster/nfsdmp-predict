@@ -135,9 +135,11 @@ phi <- list(
   node = "phi_mu",
   type = "RW",
   control = list(
-    adaptInterval = 100,
+    reflective = TRUE,
+    adaptive = TRUE,
+    adaptInterval = 200,
     adaptFactorExponent = 0.6,
-    scale = 0.01
+    scale = 0.005
   )
 )
 
@@ -145,27 +147,31 @@ psi <- list(
   node = "psi_phi",
   type = "RW",
   control = list(
-    adaptInterval = 100,
+    log = TRUE,
+    adaptive = TRUE,
+    adaptInterval = 200,
     adaptFactorExponent = 0.6,
-    scale = 0.02
+    scale = 0.05
   )
 )
 
 custom_samplers <- list(phi, psi)
 
-for (i in seq_len(nm)) {
-  custom_samplers[[length(custom_samplers) + 1L]] <- list(
-    node = c(
-      sprintf("beta1[%d]", i),
-      sprintf("beta_p[%d, 1:3]", i)
-    ),
-    type = "RW_block",
-    control = list(
-      adaptInterval = 200,
-      adaptFactorExponent = 0.5,
-      scale = 0.1
+if (model_flags$use_beta_p) {
+  for (i in seq_len(nm)) {
+    custom_samplers[[length(custom_samplers) + 1L]] <- list(
+      node = sprintf("beta_p[%d, 1:3]", i),
+      type = "AF_slice",
+      control = list(
+        sliceWidths = rep(0.1, 3),
+        sliceMaxSteps = 50,
+        sliceAdaptFactorInterval = 200,
+        sliceAdaptFactorMaxIter = 10000,
+        sliceAdaptWidthMaxIter = 1000,
+        maxContractions = 500
+      )
     )
-  )
+  }
 }
 
 # runs the mcmc and saves chunks of samples
