@@ -139,7 +139,7 @@ phi_mu_sampler <- list(
     adaptive = TRUE,
     adaptInterval = 200,
     adaptFactorExponent = 0.6,
-    scale = 0.002
+    scale = 0.01
   )
 )
 
@@ -151,7 +151,7 @@ psi_phi_sampler <- list(
     adaptive = TRUE,
     adaptInterval = 200,
     adaptFactorExponent = 0.6,
-    scale = 0.02
+    scale = 0.1
   )
 )
 
@@ -214,18 +214,16 @@ if (model_flags$use_beta_p) {
 
     list(
       node = sprintf("beta_p[%d, %d]", row, col),
-      type = "RW",
+      type = "ess",
       control = list(
-        adaptive = TRUE,
-        adaptInterval = 200,
-        adaptFactorExponent = 0.6,
-        scale = beta_p_scales[k]
+        maxContractions = 1000,
+        maxContractionsWarning = TRUE
       )
     )
   })
 
   message(
-    "Adding individual RW samplers for ",
+    "Adding individual ESS samplers for ",
     length(beta_p_samplers),
     " beta_p nodes"
   )
