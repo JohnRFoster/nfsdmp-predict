@@ -131,110 +131,6 @@ if (st == "TEXAS") {
   monitors_add <- "N"
 }
 
-phi_mu_sampler <- list(
-  node = "phi_mu",
-  type = "RW",
-  control = list(
-    reflective = TRUE,
-    adaptive = TRUE,
-    adaptInterval = 200,
-    adaptFactorExponent = 0.6,
-    scale = 0.01
-  )
-)
-
-psi_phi_sampler <- list(
-  node = "psi_phi",
-  type = "RW",
-  control = list(
-    log = TRUE,
-    adaptive = TRUE,
-    adaptInterval = 200,
-    adaptFactorExponent = 0.6,
-    scale = 0.1
-  )
-)
-
-# constants$nH can be a vector for a single-property model.
-nH_matrix <- constants$nH
-if (is.null(dim(nH_matrix))) {
-  nH_matrix <- matrix(nH_matrix, nrow = 1L)
-}
-
-# phi[nH[i, j - 1]] exists for transitions j = 2, ..., n_time_prop[i].
-phi_indices <- unlist(
-  lapply(seq_len(constants$n_property), function(i) {
-    n_time <- constants$n_time_prop[i]
-
-    if (is.na(n_time) || n_time < 2L) {
-      return(integer())
-    }
-
-    nH_matrix[i, seq_len(n_time - 1L)]
-  }),
-  use.names = FALSE
-)
-
-phi_indices <- sort(unique(as.integer(phi_indices[!is.na(phi_indices)])))
-
-message(
-  "Adding individual RW samplers for ",
-  length(phi_indices),
-  " latent phi nodes"
-)
-
-latent_phi_samplers <- lapply(phi_indices, function(idx) {
-  list(
-    node = sprintf("phi[%d]", idx),
-    type = "RW",
-    control = list(
-      reflective = TRUE,
-      adaptive = TRUE,
-      adaptInterval = 200,
-      adaptFactorExponent = 0.6,
-      scale = 0.01
-    )
-  )
-})
-
-beta_p_samplers <- list()
-
-if (model_flags$use_beta_p) {
-  beta_p_prior_sd <- sqrt(1 / constants$beta_p_tau)
-
-  # Conservative initial proposal scales relative to the prior SD.
-  beta_p_scales <- pmax(
-    0.01,
-    pmin(0.10, 0.10 * beta_p_prior_sd)
-  )
-
-  beta_p_samplers <- lapply(seq_len(constants$n_betaP), function(k) {
-    row <- constants$beta_p_row[k]
-    col <- constants$beta_p_col[k]
-
-    list(
-      node = sprintf("beta_p[%d, %d]", row, col),
-      type = "ess",
-      control = list(
-        maxContractions = 1000,
-        maxContractionsWarning = TRUE
-      )
-    )
-  })
-
-  message(
-    "Adding individual ESS samplers for ",
-    length(beta_p_samplers),
-    " beta_p nodes"
-  )
-}
-
-custom_samplers <- c(
-  list(phi_mu_sampler, psi_phi_sampler),
-  latent_phi_samplers,
-  beta_p_samplers
-)
-
 # runs the mcmc and saves chunks of samples
 # will run until conveged
 mcmc_parallel(
@@ -246,7 +142,7 @@ mcmc_parallel(
   n_iters = n_iter,
   dest = dest,
   monitors_add = monitors_add,
-  custom_samplers = custom_samplers,
+  custom_samplers = NULL,
   export = "calc_log_area",
   buffer = 600,
   beta1 = init_list$beta1,
