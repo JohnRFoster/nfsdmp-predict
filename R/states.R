@@ -12,7 +12,7 @@ source("R/state_inits.R")
 set_boaR_options(pbStyle = as.numeric(Sys.getenv("pbStyle")))
 data_store <- Sys.getenv("data_store")
 
-project <- "states"
+project <- "states2"
 
 write_dir <- file.path("out", project)
 
