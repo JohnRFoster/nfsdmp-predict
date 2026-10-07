@@ -428,6 +428,45 @@ state_inits <- function(state_name) {
 		out$phi_mu <- c(0.65, 0.7)
 		out$log_nu <- c(1.8, 2)
 	}
+	# Kentucky ----
+	if (state_name == "KENTUCKY") {
+		out$beta1 <- tribble(
+			~min , ~max ,
+			-0.5 ,  0.5 ,
+			-3   , -1   ,
+			-2.5 , -2
+		)
+		out$beta_p <- tribble(
+			~min , ~max ,
+			-0.8 ,  0   , # [1, 1]
+			 0   ,  1   , # [1, 2]
+			-0.2 ,  0.2 , # [1, 3]
+			-2   , -1   , # [2, 1]
+			-3   , -1   , # [2, 2]
+			 1   ,  2   , # [2, 3]
+			 0.5 ,  1   , # [3, 1]
+			 3   ,  4   , # [3, 2]
+			-0.4 ,  0 # [3, 3]
+		)
+		out$p_mu <- data.frame(
+			min = c(-1, -1),
+			max = c(1, 1)
+		)
+		out$log_gamma <- data.frame(
+			min = c(-2, -1.4),
+			max = c(-1, -0.6)
+		)
+		out$log_rho <- tribble(
+			~min , ~max ,
+			 1.6 ,  1.8 ,
+			-2.5 , -1.5 ,
+			-0.7 , -0.5
+		)
+
+		out$psi_phi <- c(0.8, 1)
+		out$phi_mu <- c(0.65, 0.7)
+		out$log_nu <- c(1.8, 2)
+	}
 	out
 }
 
