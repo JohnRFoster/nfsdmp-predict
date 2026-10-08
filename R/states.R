@@ -149,11 +149,11 @@ for (i in seq_len(nm)) {
     control = list(
       adaptive = TRUE,
       adaptScaleOnly = FALSE,
-      adaptInterval = 200,
-      adaptFactorExponent = 0.6,
-      scale = 0.1,
+      adaptInterval = 100,
+      adaptFactorExponent = 0.4,
+      scale = 0.03,
       propCov = diag(prior_var),
-      tries = 1
+      tries = 2
     )
   )
 }
@@ -203,11 +203,11 @@ if (nrow(trap_snare_methods) > 0L) {
       control = list(
         adaptive = TRUE,
         adaptScaleOnly = FALSE,
-        adaptInterval = 200,
-        adaptFactorExponent = 0.6,
+        adaptInterval = 100,
+        adaptFactorExponent = 0.4,
         scale = 0.1,
         propCov = diag(prior_var),
-        tries = 1
+        tries = 2
       )
     )
 
