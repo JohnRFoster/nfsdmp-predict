@@ -158,6 +158,68 @@ for (i in seq_len(nm)) {
   )
 }
 
+area_block_samplers <- list()
+
+trap_snare_methods <- method_lookup_table |>
+  filter(ts_id > 0) |>
+  distinct(method_idx, ts_id) |>
+  arrange(method_idx)
+
+if (nrow(trap_snare_methods) > 0L) {
+  for (k in seq_len(nrow(trap_snare_methods))) {
+    method_idx <- trap_snare_methods$method_idx[k]
+    ts_idx <- trap_snare_methods$ts_id[k]
+
+    if (model_flags$use_traps_and_snares) {
+      gamma_node <- sprintf("log_gamma[%d]", ts_idx)
+      p_mu_node <- sprintf("p_mu[%d]", ts_idx)
+
+      gamma_var <- 1 / constants$log_gamma_tau[ts_idx]
+      p_mu_var <- 1 / constants$p_mu_tau[ts_idx]
+    } else {
+      # Only one of traps or snares occurs, so these are scalar nodes.
+      gamma_node <- "log_gamma"
+      p_mu_node <- "p_mu"
+
+      gamma_var <- 1 / constants$log_gamma_tau[1]
+      p_mu_var <- 1 / constants$p_mu_tau[1]
+    }
+
+    nodes <- c(
+      sprintf("log_rho[%d]", method_idx),
+      gamma_node,
+      p_mu_node
+    )
+
+    prior_var <- c(
+      1 / constants$log_rho_tau[method_idx],
+      gamma_var,
+      p_mu_var
+    )
+
+    area_block_samplers[[length(area_block_samplers) + 1L]] <- list(
+      node = nodes,
+      type = "RW_block",
+      control = list(
+        adaptive = TRUE,
+        adaptScaleOnly = FALSE,
+        adaptInterval = 200,
+        adaptFactorExponent = 0.6,
+        scale = 0.1,
+        propCov = diag(prior_var),
+        tries = 1
+      )
+    )
+
+    message(
+      "Adding trap/snare area block: ",
+      paste(nodes, collapse = ", ")
+    )
+  }
+}
+
+custom_samplers <- c(custom_samplers, area_block_samplers)
+
 # runs the mcmc and saves chunks of samples
 # will run until conveged
 mcmc_parallel(
