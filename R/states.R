@@ -131,6 +131,33 @@ if (st == "TEXAS") {
   monitors_add <- "N"
 }
 
+custom_samplers <- list()
+
+for (i in seq_len(nm)) {
+  beta_idx <- which(constants$beta_p_row == i)
+  beta_nodes <- sprintf(
+    "beta_p[%d, %d]",
+    constants$beta_p_row[beta_idx],
+    constants$beta_p_col[beta_idx]
+  )
+  # Initialize the proposal covariance from the prior variances.
+  prior_var <- 1 / constants$beta_p_tau[beta_idx]
+
+  custom_samplers[[i]] <- list(
+    node = beta_nodes,
+    type = "RW_block",
+    control = list(
+      adaptive = TRUE,
+      adaptScaleOnly = FALSE,
+      adaptInterval = 200,
+      adaptFactorExponent = 0.6,
+      scale = 0.1,
+      propCov = diag(prior_var),
+      tries = 1
+    )
+  )
+}
+
 # runs the mcmc and saves chunks of samples
 # will run until conveged
 mcmc_parallel(
@@ -142,7 +169,7 @@ mcmc_parallel(
   n_iters = n_iter,
   dest = dest,
   monitors_add = monitors_add,
-  custom_samplers = NULL,
+  custom_samplers = custom_samplers,
   export = "calc_log_area",
   buffer = 600,
   beta1 = init_list$beta1,
