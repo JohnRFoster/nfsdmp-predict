@@ -239,7 +239,7 @@ mcmc_parallel(
   monitors_add = monitors_add,
   custom_samplers = custom_samplers,
   export = "calc_log_area",
-  buffer = 600,
+  buffer = buffer,
   beta1 = init_list$beta1,
   beta_p = init_list$beta_p,
   p_mu = init_list$p_mu,
