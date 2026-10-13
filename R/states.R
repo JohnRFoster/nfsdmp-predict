@@ -123,12 +123,18 @@ dest <- file.path(path, "mcmc")
 init_list <- state_inits(st)
 
 # only monitor the observed primary periods for Texas
-if (st == "TEXAS") {
+if (st == "TEXAS" || st == "OKLAHOMA") {
   nH_p <- constants$nH_p
   monitors_add <- c("N", paste0("N[", nH_p, "]"))
+  buffer <- 1000
 } else {
   # otherwise, monitor all primary periods
   monitors_add <- "N"
+  buffer <- 600
+}
+
+if (st == "GEORGIA") {
+  buffer <- 800
 }
 
 custom_samplers <- list()
