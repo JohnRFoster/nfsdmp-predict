@@ -57,10 +57,10 @@ data_complete <- data_mis |>
     !propertyID %in% original_ids
   )
 
-# write_rds(
-#   data_complete,
-#   file.path(data_store, "stateFit", project_pull, "model_data.rds")
-# )
+write_rds(
+  data_complete,
+  file.path(data_store, "stateFit", project_pull, "model_data.rds")
+)
 
 jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
@@ -126,7 +126,7 @@ init_list <- state_inits(st)
 if (st == "TEXAS" || st == "OKLAHOMA") {
   nH_p <- constants$nH_p
   monitors_add <- c("N", paste0("N[", nH_p, "]"))
-  buffer <- 1000
+  buffer <- 1200
 } else {
   # otherwise, monitor all primary periods
   monitors_add <- "N"
