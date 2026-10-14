@@ -57,10 +57,10 @@ data_complete <- data_mis |>
     !propertyID %in% original_ids
   )
 
-write_rds(
-  data_complete,
-  file.path(data_store, "stateFit", project_pull, "model_data.rds")
-)
+# write_rds(
+#   data_complete,
+#   file.path(data_store, "stateFit", project_pull, "model_data.rds")
+# )
 
 jobs <- sort(unique(data_complete$st_name))
 # length(jobs) = 23
