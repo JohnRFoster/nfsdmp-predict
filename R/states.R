@@ -126,7 +126,7 @@ init_list <- state_inits(st)
 if (st == "TEXAS" || st == "OKLAHOMA") {
   nH_p <- constants$nH_p
   monitors_add <- c("N", paste0("N[", nH_p, "]"))
-  buffer <- 2000
+  buffer <- 2500
 } else {
   # otherwise, monitor all primary periods
   monitors_add <- "N"
