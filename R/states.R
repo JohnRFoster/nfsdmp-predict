@@ -137,30 +137,28 @@ if (st == "GEORGIA") {
   buffer <- 800
 }
 
-custom_samplers <- list()
+beta_p_samplers <- list()
 
-for (i in seq_len(nm)) {
-  beta_idx <- which(constants$beta_p_row == i)
-  beta_nodes <- sprintf(
-    "beta_p[%d, %d]",
-    constants$beta_p_row[beta_idx],
-    constants$beta_p_col[beta_idx]
-  )
-  # Initialize the proposal covariance from the prior variances.
-  prior_var <- 1 / constants$beta_p_tau[beta_idx]
-
-  custom_samplers[[i]] <- list(
-    node = beta_nodes,
-    type = "RW_block",
-    control = list(
-      adaptive = TRUE,
-      adaptScaleOnly = FALSE,
-      adaptInterval = 100,
-      adaptFactorExponent = 0.4,
-      scale = 0.03,
-      propCov = diag(prior_var),
-      tries = 2
+if (model_flags$use_beta_p) {
+  beta_p_samplers <- lapply(seq_len(constants$n_betaP), function(k) {
+    list(
+      node = sprintf(
+        "beta_p[%d, %d]",
+        constants$beta_p_row[k],
+        constants$beta_p_col[k]
+      ),
+      type = "ess",
+      control = list(
+        maxContractions = 1000,
+        maxContractionsWarning = TRUE
+      )
     )
+  })
+
+  message(
+    "Adding individual ESS samplers for ",
+    length(beta_p_samplers),
+    " beta_p nodes"
   )
 }
 
@@ -224,7 +222,7 @@ if (nrow(trap_snare_methods) > 0L) {
   }
 }
 
-custom_samplers <- c(custom_samplers, area_block_samplers)
+custom_samplers <- c(beta_p_samplers, area_block_samplers)
 
 # runs the mcmc and saves chunks of samples
 # will run until conveged
