@@ -99,7 +99,6 @@ data_for_nimble <- data_for_nimble |>
   mutate(
     county_code = sprintf("%05d", as.integer(county_code))
   ) |>
-  left_join(county_ecoregion, by = "county_code") |>
   filter(ecoregion_name == eco_sub)
 
 eco_path <- gsub("\\s+", "_", trimws(eco_sub))
