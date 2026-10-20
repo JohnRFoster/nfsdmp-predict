@@ -148,6 +148,9 @@ dest <- file.path(path, "mcmc")
 # get inits for each state
 
 init_list <- state_inits(st)
+if (array_num == 3) {
+  init_list <- NULL
+}
 
 # only monitor the observed primary periods for Texas
 if (st == "TEXAS" || st == "OKLAHOMA") {
@@ -196,7 +199,7 @@ trap_snare_methods <- method_lookup_table |>
   distinct(method_idx, ts_id) |>
   arrange(method_idx)
 
-if (nrow(trap_snare_methods) > 0L) {
+if (nrow(trap_snare_methods) > 0) {
   for (k in seq_len(nrow(trap_snare_methods))) {
     method_idx <- trap_snare_methods$method_idx[k]
     ts_idx <- trap_snare_methods$ts_id[k]
