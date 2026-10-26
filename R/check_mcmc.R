@@ -91,9 +91,12 @@ data_for_nimble <- data_complete |>
   select(-p) |>
   mutate(primary_period = primary_period - min(primary_period) + 1)
 
+start <- if_else(st == "OKLAHOMA", 40, 1)
+
 mcmc_diagnostics(
   mcmc_dir = mcmc_dir,
   dest = analysis_dir,
   data = data_for_nimble,
-  params_check = params_check
+  params_check = params_check,
+  start = start
 )
