@@ -93,10 +93,39 @@ config <- config::get(config = config_name)
 interval <- config$interval
 create_new <- config$create_new
 
+county_ecoregion <- readr::read_csv(
+  file.path(data_store, "county_ecoregion.csv")
+)
+
 data_for_nimble <- data_complete |>
-  filter(st_name == st) |>
   select(-p) |>
-  mutate(primary_period = primary_period - min(primary_period) + 1)
+  mutate(primary_period = primary_period - min(primary_period) + 1) |>
+  left_join(county_ecoregion, by = "county_code") |>
+  mutate(
+    county_code = sprintf("%05d", as.integer(county_code))
+  )
+
+if (grepl("TEXAS", st)) {
+  ecoregion_vec <- c(
+    "SOUTH CENTRAL SEMIARID PRAIRIES",
+    "TEXAS-LOUISIANA COASTAL PLAIN",
+    "TAMAULIPAS-TEXAS SEMIARID PLAIN",
+    "WARM DESERTS",
+    "SOUTHEASTERN USA PLAINS"
+  )
+  array_num <- as.integer(Sys.getenv("SLURM_ARRAY_TASK_ID", unset = "1"))
+  eco_sub <- ecoregion_vec[array_num]
+  data_for_nimble <- data_for_nimble |>
+    mutate(
+      county_code = sprintf("%05d", as.integer(county_code))
+    ) |>
+    filter(st_name == "TEXAS") |>
+    filter(ecoregion_name == eco_sub)
+} else {
+  data_for_nimble <- data_for_nimble |>
+    filter(st_name == st)
+}
+
 
 start <- 1
 if (st == "OKLAHOMA") {
