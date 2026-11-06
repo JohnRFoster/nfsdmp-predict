@@ -134,6 +134,9 @@ if (st == "OKLAHOMA") {
 if (st == "TEXAS_TEXAS-LOUISIANA_COASTAL_PLAIN") {
   start <- 45
 }
+if (st == "TEXAS_SOUTH_CENTRAL_SEMIARID_PRAIRIES") {
+  start <- 10
+}
 
 
 mcmc_diagnostics(
